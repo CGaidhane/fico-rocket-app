@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>SAP FICO Quest 🚀</title>
+<script>
+// Silence harmless Tailwind CDN dev-warning so the console stays clean
+(function(){const w=console.warn;console.warn=function(){try{if(arguments[0]&&String(arguments[0]).includes('cdn.tailwindcss.com'))return;}catch(e){}return w.apply(console,arguments);};})();
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={darkMode:'class',theme:{extend:{
+  colors:{sap:{50:'#e6f0fb',100:'#cce0f7',300:'#66a3e0',500:'#0066CC',600:'#0052a3',700:'#003d7a',900:'#001f3d'},
+          gold:{400:'#f5c518',500:'#e0a800'}},
+  fontFamily:{sans:['Inter','system-ui','sans-serif']}
+}}}
+</script>
+<style>
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;background:#eef2f8;overscroll-behavior-y:none}
+  html.dark body{background:radial-gradient(1100px 700px at 78% -8%, #0c2444 0%, transparent 60%), radial-gradient(900px 600px at -10% 30%, #0e1f38 0%, transparent 55%), #030712}
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-thumb{background:#0066CC55;border-radius:8px}
+  ::-webkit-scrollbar-track{background:transparent}
+  .gradtext{background:linear-gradient(90deg,#0066CC,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .goldtext{background:linear-gradient(90deg,#f5c518,#fff1a8);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .gradbg{background:linear-gradient(135deg,#002a55 0%,#0066CC 55%,#0aa3e0 100%)}
+  .goldbg{background:linear-gradient(135deg,#b8860b,#f5c518 55%,#fff1a8)}
+  #stars{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  html:not(.dark) #stars{opacity:.25}
+  .star{position:absolute;background:#cfe8ff;border-radius:50%;opacity:.5;animation:tw 3.6s ease-in-out infinite}
+  @keyframes tw{0%,100%{opacity:.12;transform:scale(.8)}50%{opacity:.95;transform:scale(1.35)}}
+  @keyframes floatIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .fadein{animation:floatIn .45s cubic-bezier(.2,.7,.3,1) both}
+  .stagger>*{animation:floatIn .45s cubic-bezier(.2,.7,.3,1) both}
+  .stagger>*:nth-child(1){animation-delay:.03s}.stagger>*:nth-child(2){animation-delay:.07s}
+  .stagger>*:nth-child(3){animation-delay:.11s}.stagger>*:nth-child(4){animation-delay:.15s}
+  .stagger>*:nth-child(5){animation-delay:.19s}.stagger>*:nth-child(6){animation-delay:.23s}
+  .stagger>*:nth-child(7){animation-delay:.27s}.stagger>*:nth-child(8){animation-delay:.31s}
+  @keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+  .pop{animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+  @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+  .shine{background:linear-gradient(90deg,#0066CC,#22d3ee,#0066CC);background-size:200% 100%;animation:shimmer 2.2s linear infinite}
+  .shinegold{background:linear-gradient(90deg,#e0a800,#ffe680,#e0a800);background-size:200% 100%;animation:shimmer 2.2s linear infinite}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .floaty{animation:floaty 3.5s ease-in-out infinite}
+  @keyframes sparkle{0%,100%{opacity:0;transform:scale(.5) rotate(0)}50%{opacity:1;transform:scale(1) rotate(20deg)}}
+  .spark{animation:sparkle 2.4s ease-in-out infinite}
+  /* touch feedback (no hover dependence) */
+  .tap{transition:transform .12s ease, box-shadow .2s ease, background-color .15s}
+  .tap:active{transform:scale(.96)}
+  .cardtap{transition:transform .14s ease, box-shadow .2s ease}
+  .cardtap:active{transform:scale(.985)}
+  @media(hover:hover){.cardtap:hover{transform:translateY(-3px);box-shadow:0 14px 32px -12px rgba(0,102,204,.4)}}
+  .flip{perspective:1400px}
+  .flip-inner{transition:transform .5s cubic-bezier(.3,.7,.3,1);transform-style:preserve-3d;position:relative}
+  .flipped{transform:rotateY(180deg)}
+  .face{backface-visibility:hidden;-webkit-backface-visibility:hidden;position:absolute;inset:0}
+  .back{transform:rotateY(180deg)}
+  @keyframes toastin{from{opacity:0;transform:translateY(20px) scale(.95)}to{opacity:1;transform:none}}
+  .toast{animation:toastin .35s cubic-bezier(.2,1.3,.4,1) both}
+  .navactive{color:#0066CC}
+  .dark .navactive{color:#7cc0ff}
+  .ring-anim{transition:stroke-dashoffset 1s cubic-bezier(.3,.7,.3,1)}
+  details>summary{list-style:none;cursor:pointer}
+  details>summary::-webkit-details-marker{display:none}
+  button,[role=checkbox]{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+  /* bottom sheet */
+  #sheet{transition:transform .32s cubic-bezier(.3,.8,.3,1)}
+  .sheet-hidden{transform:translateY(110%)}
+  .safe-bottom{padding-bottom:env(safe-area-inset-bottom)}
+</style>
+</head>
+<body class="text-slate-800 dark:text-slate-100 min-h-screen">
+
+<div id="stars"></div>
+
+<div class="relative z-10 min-h-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-30 backdrop-blur bg-white/85 dark:bg-slate-950/75 border-b border-slate-200 dark:border-slate-800">
+    <div class="flex items-center gap-2 px-3 py-2.5 max-w-3xl mx-auto w-full">
+      <div class="text-xl floaty shrink-0">🧙‍♀️</div>
+      <h2 id="pageTitle" class="font-extrabold text-base truncate flex-1 gradtext">Dashboard</h2>
+      <div class="flex items-center gap-1 px-2 py-1.5 rounded-xl bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-300 text-sm font-bold" title="Daily streak"><span>🔥</span><span id="hStreak">0</span></div>
+      <div class="flex items-center gap-0.5 px-2 py-1.5 rounded-xl goldbg text-amber-900 text-sm font-extrabold shadow-sm" title="Treasure earned"><span>💰₹</span><span id="hCoins">0</span></div>
+      <button onclick="toggleSound()" class="tap w-10 h-10 grid place-items-center rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800" title="Sound on/off"><span id="soundIcon">🔊</span></button>
+      <button onclick="toggleTheme()" class="tap w-10 h-10 grid place-items-center rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800" title="Day / night"><span id="themeIcon">🌙</span></button>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <main id="content" class="flex-1 p-4 pb-28 max-w-3xl w-full mx-auto"></main>
+
+  <!-- BOTTOM NAV -->
+  <nav class="fixed bottom-0 inset-x-0 z-30 bg-white/90 dark:bg-slate-950/85 backdrop-blur border-t border-slate-200 dark:border-slate-800 safe-bottom">
+    <div id="bnav" class="max-w-3xl mx-auto grid grid-cols-5"></div>
+  </nav>
+</div>
+
+<!-- MORE bottom sheet -->
+<div id="sheetWrap" class="fixed inset-0 z-40 hidden">
+  <div onclick="closeMore()" class="absolute inset-0 bg-black/50"></div>
+  <div id="sheet" class="sheet-hidden absolute bottom-0 inset-x-0 bg-white dark:bg-slate-900 rounded-t-3xl border-t border-slate-200 dark:border-slate-800 p-5 pb-8 safe-bottom max-w-3xl mx-auto">
+    <div class="w-12 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 mx-auto mb-4"></div>
+    <h3 class="font-extrabold text-lg mb-3">More quests</h3>
+    <div id="moreGrid" class="grid grid-cols-2 gap-3"></div>
+  </div>
+</div>
+
+<div id="toasts" class="fixed bottom-24 right-4 z-50 flex flex-col gap-2 items-end pointer-events-none"></div>
+<canvas id="cfx" class="fixed inset-0 z-[60] pointer-events-none hidden"></canvas>
+<div id="modal" class="fixed inset-0 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm" onclick="if(event.target===this)closeModal()">
+  <div id="modalBox" class="bg-white dark:bg-slate-900 rounded-t-3xl sm:rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl pop border border-slate-200 dark:border-slate-800 safe-bottom"></div>
+</div>
+
+<script>
+/* =====================================================================
+   STORAGE — bulletproof for Android WebView
+   Writes localStorage SYNCHRONOUSLY on every change (primary, survives
+   app kill), mirrors to window.storage (Claude runtime) + memory.
+   ===================================================================== */
+const MEM={};
+const KEY='ficoQuestM1';
+const Store={
+  read(){
+    try{const v=localStorage.getItem(KEY);if(v!==null)return v;}catch(e){}
+    return (KEY in MEM)?MEM[KEY]:null;
+  },
+  write(v){
+    MEM[KEY]=v;
+    try{localStorage.setItem(KEY,v);}catch(e){}
+    try{if(window.storage&&window.storage.set)window.storage.set(KEY,v);}catch(e){} // async mirror, fire & forget
+  },
+  async readAsync(){
+    try{if(window.storage&&window.storage.get){const r=await window.storage.get(KEY);if(r&&r.value)return r.value;}}catch(e){}
+    return Store.read();
+  }
+};
+
+/* STATE — currency is "coins" = rupees (no XP, per request) */
+let S={coins:0,streak:0,last:null,badges:[],favs:[],done:[],claimed:[],quiz:{},flashSeen:[],theme:'dark',sound:true};
+async function load(){const raw=await Store.readAsync();if(raw){try{S=Object.assign(S,JSON.parse(raw));}catch(e){}}}
+function save(){Store.write(JSON.stringify(S));}   // immediate, every micro-interaction
+
+/* =====================================================================
+   HAPTICS + SYNTHESIZED AUDIO (self-contained, no external files)
+   ===================================================================== */
+function haptic(p){try{if(navigator.vibrate)navigator.vibrate(p);}catch(e){}}
+let AC=null,_audioReady=false;
+function ensureAudio(){
+  if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}
+  if(AC&&AC.state==='suspended'){AC.resume().catch(()=>{});}
+  _audioReady=!!AC;
+}
+function beep(freq,dur,type,vol,when){
+  if(!S.sound||!AC)return;
+  type=type||'sine';vol=vol==null?0.07:vol;when=when||0;
+  const o=AC.createOscillator(),g=AC.createGain();
+  o.type=type;o.frequency.value=freq;
+  const t=AC.currentTime+when;
+  o.connect(g);g.connect(AC.destination);
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.linearRampToValueAtTime(vol,t+0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.start(t);o.stop(t+dur+0.03);
+}
+function sndTap(){ensureAudio();beep(420,0.05,'sine',0.03);}
+function sndCorrect(){ensureAudio();beep(660,0.10,'sine',0.07,0);beep(990,0.14,'sine',0.07,0.08);}
+function sndWrong(){ensureAudio();beep(190,0.20,'sawtooth',0.05,0);beep(150,0.18,'sawtooth',0.04,0.05);}
+function sndCoin(){ensureAudio();beep(1046,0.06,'square',0.045,0);beep(1568,0.10,'square',0.045,0.06);}
+function sndComplete(){ensureAudio();[523,659,784,1046].forEach((f,i)=>beep(f,0.15,'triangle',0.06,i*0.085));}
+
+/* RANKS (career ladder = fantasy realms, framed in rupees) */
+const LEVELS=[
+ {name:'Processor', min:0,    emoji:'🌱', realm:'the Apprentice Village',  blurb:'Your adventure begins — and you already wield real P2P magic from Infosys.'},
+ {name:'Analyst',   min:300,  emoji:'🔮', realm:'the ₹6–9 LPA Realm',      blurb:'You read the runes of the system now, not just tap them.'},
+ {name:'Consultant',min:800,  emoji:'🛡️', realm:'the ₹12–18 LPA Realm',    blurb:'You configure and advise. The interview dragons grow nervous.'},
+ {name:'Rockstar',  min:1500, emoji:'👑', realm:'the ₹20–30 LPA+ Realm',   blurb:'An S/4HANA legend. Go claim your royal offer, champion.'}
+];
+function curLevel(){let l=LEVELS[0];for(const x of LEVELS){if(S.coins>=x.min)l=x;}return l;}
+function nextLevel(){for(const x of LEVELS){if(x.min>S.coins)return x;}return null;}
+
+const BADGES={
+  first:    {e:'🗝️', t:'Quest Begun',     d:'Entered the adventure'},
+  streak7:  {e:'🔥', t:'7-Day Flame',     d:'Showed up 7 days'},
+  p2p:      {e:'⚔️', t:'P2P Champion',    d:'Conquered the P2P quest'},
+  tcode:    {e:'📜', t:'Spell Master',    d:'Studied the whole spellbook'},
+  interview:{e:'🐉', t:'Dragon Slayer',   d:'Survived a boss battle'},
+  quiz:     {e:'🎯', t:'Sharpshooter',    d:'Scored 80%+ in training'},
+  fico:     {e:'🏰', t:'Realm Explorer',  d:'Studied all FICO realms'},
+  cert:     {e:'🎓', t:'Trial Seeker',    d:'Charted the certification trials'},
+  qa:       {e:'🧪', t:'QA Specialist',   d:'Mastered the Testing Arena'}
+};
+
+/* =====================================================================
+   CONTENT  (S/4HANA-focused, now with real corporate scenarios "rw")
+   ===================================================================== */
+const D={};
+
+D.quotes=[
+  "You're not starting from scratch — you're starting from experience.",
+  "Every T-code you master is a coin added to your offer.",
+  "Champions aren't born. They're the support folks who kept asking 'why'.",
+  "S/4HANA rewards understanding, not memory. You have time to build it.",
+  "The gap between you and ₹20 LPA is a few hundred hours of focused practice.",
+  "Configuration is just the P2P you already know — explained backwards.",
+  "Interview courage = real Infosys stories + the 'why' behind them.",
+  "One MIRO posting at work taught you more than ten videos. Use it.",
+  "Show up daily. The streak is the strategy.",
+  "You process invoices today. Soon you design how 1000 people process them.",
+  "Speak in T-codes, think in accounting entries, win the boss battles.",
+  "Pune pays well for S/4HANA FICO. You are already in the right kingdom."
+];
+
+D.jobs=[
+  {t:"SAP S/4HANA FICO Consultant", c:"Big-4 (Deloitte/EY/PwC/KPMG)", p:"₹12–22 LPA", n:"P2P + GL config, 3+ yrs"},
+  {t:"SAP FICO Analyst", c:"Accenture / Capgemini", p:"₹9–16 LPA", n:"AP/AR support → config track"},
+  {t:"Finance Functional Consultant", c:"Product / GCC, Pune", p:"₹14–24 LPA", n:"S/4HANA + integration"},
+  {t:"SAP FI-CO Consultant", c:"Infosys / TCS / Wipro", p:"₹8–15 LPA", n:"Internal switch from support"},
+  {t:"S/4HANA Migration Consultant", c:"MNC partner", p:"₹16–28 LPA", n:"ECC→S/4 experience prized"},
+  {t:"SAP Treasury + FICO", c:"BFSI captive", p:"₹15–26 LPA", n:"Bank accounting strong"},
+  {t:"SAP COPA / Controlling", c:"Manufacturing MNC", p:"₹13–22 LPA", n:"Margin & profitability"},
+  {t:"Lead SAP FICO Consultant", c:"Boutique consultancy", p:"₹22–35 LPA", n:"Full-cycle implementation"}
+];
+
+D.role=[
+  {icon:'🧾', t:'Invoice Processing', codes:'MIRO · FB60', desc:'Verify & post incoming vendor invoices against POs — core Logistics Invoice Verification.', know:'MIRO (PO-based), FB60 (non-PO)',
+   rw:'A vendor emails that their ₹55,000 invoice is unpaid. You open MIRO and find it blocked against a ₹50,000 PO — a price variance. You confirm the correct price with procurement and route it for release before it can post.'},
+  {icon:'📨', t:'Supplier Invoice Processing (SIP)', codes:'MIRO · MIR4 · MIR6', desc:'Park, post and monitor supplier invoices, including blocked-invoice workflows.', know:'MIR4 display, MIR6 overview, MRBR release',
+   rw:'At month-end 40 supplier invoices sit parked. You run MIR6 to list them, spot which are blocked for quantity variance, and clear the backlog before the Friday F110 run.'},
+  {icon:'⚖️', t:'Inventory Reconciliations', codes:'MB5L · MB52 · MMBE', desc:'Match stock value (MM) to GL balances — the MM-FI integration topic interviewers love.', know:'GR/IR reconciliation, stock vs GL',
+   rw:'Finance flags that the stock GL account doesn’t match the warehouse value. You run MB5L, trace a goods receipt posted without a matching invoice, and explain the open GR/IR difference.'},
+  {icon:'🏢', t:'Vendor Master Data', codes:'XK01 · FK01 · XK02', desc:'Create & maintain vendors. In S/4HANA this becomes Business Partner (BP).', know:'XK01 central, FK01 FI view, BP in S/4HANA',
+   rw:'Procurement requests a new Pune supplier. You create it in XK01, but the first invoice fails to post until you maintain the FI accounting view and bank details — a classic incomplete-master issue.'},
+  {icon:'📑', t:'Purchase Orders', codes:'ME21N · ME22N · ME23N', desc:'Create, edit and read POs — the document driving the 3-way match.', know:'Create / change / display PO',
+   rw:'An invoice won’t match because the PO carries the wrong tax code. You open ME22N, correct it, and the 3-way match clears on the next MIRO attempt.'},
+  {icon:'🔄', t:'Material Mgmt + full P2P', codes:'MIGO · ME2N', desc:'Goods receipt and end-to-end procure-to-pay tracking.', know:'GR (101 movement), open PO reporting',
+   rw:'A buyer says goods arrived but the system shows the PO still open. You check MIGO history and find the GR was posted to the wrong movement type, so it never updated the PO.'}
+];
+
+D.p2p=[
+  {n:1, t:'Purchase Requisition', code:'ME51N', screen:'Internal request to buy. No accounting yet — a planning document.', entry:'No FI posting (commitment only, if CO active).', err:['Missing account assignment','No source of supply','Material/plant not extended'], tip:'Say: "PR is a demand signal, not a financial document — postings start at GR."',
+   rw:'A department head needs 50 laptops. A PR is raised in ME51N; procurement converts it to a PO once the budget is approved.'},
+  {n:2, t:'RFQ (Request for Quotation)', code:'ME41', screen:'You send vendors a request for prices and terms.', entry:'No FI posting.', err:['Vendor not maintained for purch org','Collective number missing'], tip:'Rarely tested deeply, but know it precedes the PO.',
+   rw:'For a large office-furniture order, procurement floats an RFQ to three vendors to compare pricing before committing.'},
+  {n:3, t:'Quotation & Comparison', code:'ME47 · ME49', screen:'Vendors reply (ME47); you compare prices (ME49) and pick one.', entry:'No FI posting.', err:['Quotation not maintained','Price comparison shows zero'], tip:'ME49 = price comparison list — a classic full-cycle check.',
+   rw:'Three vendors reply. You run ME49 to compare and recommend the lowest landed cost to the buyer.'},
+  {n:4, t:'Purchase Order', code:'ME21N', screen:'The legal order to the vendor. Drives the 3-way match.', entry:'No FI posting yet (commitment in CO if active).', err:['Account assignment category wrong','Tax code missing','Price / condition errors'], tip:'PO has NO accounting impact — postings begin at goods receipt.',
+   rw:'Finance asks why a commitment shows in a cost center report — it’s an open PO raised in ME21N that hasn’t been received yet.'},
+  {n:5, t:'Goods Receipt', code:'MIGO', screen:'Stock arrives. Movement type 101. First real accounting hits here.', entry:'Dr Stock / Inventory (BSX)\nCr GR/IR clearing (WRX)', err:['101 not allowed for PO','GR/IR account not assigned (OBYC)','Movement type config missing'], tip:'GR posts to GR/IR, the "parking" account between logistics and finance.',
+   rw:'The warehouse receives 480 of 500 ordered units. You post a partial GR (101) in MIGO; the system books Dr Inventory / Cr GR/IR for 480 units only.'},
+  {n:6, t:'Invoice Verification', code:'MIRO', screen:'Vendor invoice posted & 3-way matched (PO ↔ GR ↔ Invoice).', entry:'Dr GR/IR clearing (WRX)\nCr Vendor (AP recon)\nDr/Cr price/tax differences', err:['Price/qty variance → invoice blocked','Tolerance limit exceeded','Duplicate invoice'], tip:'MIRO clears GR/IR against the vendor. Mismatch = block, released via MRBR.',
+   rw:'The vendor invoices for 500 units but only 480 were received. MIRO blocks the invoice for quantity variance; you release it via MRBR after the remaining 20 arrive.'},
+  {n:7, t:'Payment', code:'F-53 · F110', screen:'Pay the vendor. F-53 manual, F110 = Automatic Payment Program.', entry:'Dr Vendor (AP)\nCr Bank / Bank clearing', err:['No valid payment method','House bank not set up','Exception in proposal'], tip:'F110 steps: Parameters → Proposal → Payment run → Print.',
+   rw:'It’s the weekly payment run. You execute F110; one vendor is skipped and the proposal log shows a missing payment method in their master record.'}
+];
+
+D.fico={
+  FI:[
+    {icon:'📖', t:'General Ledger (G/L)', codes:'FS00 · FB50 · FAGLB03', d:'Central record of all postings. In S/4HANA every line lands in ACDOCA.',
+     rw:'An auditor asks for every posting to a specific expense account. You pull the line items in FBL3N / FAGLB03 and export them for review.'},
+    {icon:'💸', t:'Accounts Payable (AP)', codes:'FK01/BP · FB60 · F-53 · F110', d:'Vendor accounting — your home turf.',
+     rw:'A vendor threatens to halt supply over an overdue payment. You check FBL1N, find the invoice was never released from block, and expedite it through MRBR + F110.'},
+    {icon:'💰', t:'Accounts Receivable (AR)', codes:'FD01/BP · FB70 · F-28', d:'Customer accounting, dunning, statements.',
+     rw:'A customer disputes an invoice. You display open items in FBL5N and discover an incoming payment was applied to the wrong invoice.'},
+    {icon:'🏗️', t:'Asset Accounting (AA)', codes:'AS01 · ABAVN · AFAB', d:'Fixed assets & depreciation. S/4HANA posts in real time.',
+     rw:'At year-end depreciation looks understated. You verify the depreciation key and confirm AFAB actually ran for every period.'},
+    {icon:'🏦', t:'Bank Accounting', codes:'FF67 · FF_5 · FEBA', d:'House banks, statements, reconciliation.',
+     rw:'The bank statement won’t reconcile. You review FEBA and find an outgoing payment was posted twice during the manual run.'}
+  ],
+  CO:[
+    {icon:'🎯', t:'Cost Center Accounting', codes:'KS01 · KSB1', d:'Where costs are incurred (departments).',
+     rw:'A manager’s department is over budget. You run KSB1 to show every actual posting that hit their cost center this quarter.'},
+    {icon:'📈', t:'Profit Center Accounting', codes:'KE51 · KE5Z', d:'Profitability by responsibility area.',
+     rw:'Leadership wants profit by business line. You pull profit center reports now sourced live from ACDOCA in S/4HANA.'},
+    {icon:'🧩', t:'Internal Orders', codes:'KO01 · KOB1', d:'Track costs for events / projects / jobs.',
+     rw:'Marketing runs a trade show. You open an internal order (KO01) to capture all event costs separately, then settle them later.'},
+    {icon:'🧮', t:'COPA (Profitability Analysis)', codes:'KE30 · KE24', d:'Margin by product / customer / region.',
+     rw:'Sales wants margin by region. You run a COPA report (KE30) showing contribution by product and customer.'}
+  ],
+  extra:[
+    {icon:'🔌', t:'MM ↔ FI Integration', codes:'OBYC', d:'Automatic account determination (BSX, WRX, PRD).',
+     rw:'After go-live, goods receipts throw an "account not found" error. You check OBYC and find the WRX (GR/IR) key wasn’t assigned for the new valuation class.'},
+    {icon:'🔗', t:'SD ↔ FI Integration', codes:'VKOA', d:'Billing auto-posts revenue to FI via VKOA.',
+     rw:'Billing posts but revenue lands in the wrong GL account. You correct the VKOA account determination so revenue maps correctly.'},
+    {icon:'⚡', t:'S/4HANA vs ECC — must know', codes:'ACDOCA', d:'Universal Journal merges FI + CO; Business Partner; New Asset Accounting.',
+     rw:'Migrating from ECC, the team must convert separate vendor and customer masters into Business Partners and reconcile balances into the ACDOCA universal journal.'}
+  ]
+};
+
+D.tcodes=[
+  {c:'FS00',m:'FI',n:'G/L Account Master',u:'Create / change / display G/L accounts.',r:'Create a new travel-expense GL account when finance rolls out a new policy.'},
+  {c:'FB50',m:'FI',n:'Enter G/L Document',u:'Post a G/L journal entry.',r:'Post a manual month-end accrual for unbilled consulting work.'},
+  {c:'FB60',m:'AP',n:'Enter Incoming Invoice',u:'Vendor invoice directly in FI (no PO).',r:'Book a one-off electricity bill that has no purchase order.'},
+  {c:'FB70',m:'AR',n:'Enter Outgoing Invoice',u:'Post a customer invoice in FI.',r:'Raise a manual debit note to a customer for an extra service charge.'},
+  {c:'F-53',m:'AP',n:'Post Outgoing Payment',u:'Manual vendor payment.',r:'Make an urgent manual payment to a critical vendor outside the batch run.'},
+  {c:'F-28',m:'AR',n:'Incoming Payment',u:'Clear a customer receipt.',r:'Apply a customer’s incoming wire transfer against their open invoices.'},
+  {c:'F110',m:'AP',n:'Automatic Payment Program',u:'Batch run: params → proposal → run.',r:'Run the Friday batch that pays 300 vendors in a single execution.'},
+  {c:'F-58',m:'AP',n:'Payment with Printout',u:'Outgoing payment + print.',r:'Pay a vendor and immediately print the cheque for collection.'},
+  {c:'FK01',m:'AP',n:'Create Vendor (FI)',u:'Vendor accounting view (BP in S/4HANA).',r:'Set up a new vendor’s accounting view so their invoices can post.'},
+  {c:'XK01',m:'AP',n:'Create Vendor (central)',u:'Vendor across purchasing + accounting.',r:'Onboard a new Pune supplier across both procurement and finance.'},
+  {c:'FD01',m:'AR',n:'Create Customer (FI)',u:'Customer accounting view.',r:'Create a new customer account before their very first sales order.'},
+  {c:'FK10N',m:'AP',n:'Vendor Balance Display',u:'View vendor account balances.',r:'Check how much you owe a vendor before approving their payment.'},
+  {c:'FBL1N',m:'AP',n:'Vendor Line Items',u:'Open / cleared vendor items.',r:'Pull a vendor’s open items to settle a payment dispute on a call.'},
+  {c:'FBL5N',m:'AR',n:'Customer Line Items',u:'Open / cleared customer items.',r:'Review a customer’s overdue items before the team sends reminders.'},
+  {c:'FBL3N',m:'FI',n:'G/L Line Items',u:'G/L account line item display.',r:'Give auditors every posting made to a specific GL account.'},
+  {c:'OBYC',m:'FI',n:'Automatic Account Det.',u:'MM-FI config: BSX, WRX, PRD.',r:'Fix a goods-receipt error by assigning the missing WRX (GR/IR) account.'},
+  {c:'OB52',m:'FI',n:'Posting Periods',u:'Open / close posting periods.',r:'Open the new month’s posting period on the 1st so postings can flow.'},
+  {c:'FAGLB03',m:'FI',n:'G/L Balance Display',u:'New G/L account balances.',r:'Show finance the live balance of a control account during close.'},
+  {c:'AS01',m:'AA',n:'Create Asset',u:'Fixed asset master record.',r:'Capitalize a newly purchased server as a fixed asset.'},
+  {c:'AFAB',m:'AA',n:'Depreciation Run',u:'Post periodic depreciation.',r:'Run month-end depreciation across all company assets.'},
+  {c:'ABAVN',m:'AA',n:'Asset Retirement',u:'Scrap / sell an asset.',r:'Scrap a broken laptop and remove it from the asset register.'},
+  {c:'KS01',m:'CO',n:'Create Cost Center',u:'Cost center master.',r:'Create a cost center for a newly formed delivery team.'},
+  {c:'KO01',m:'CO',n:'Create Internal Order',u:'Internal order master.',r:'Open an internal order to track a one-time event’s costs.'},
+  {c:'KE51',m:'CO',n:'Create Profit Center',u:'Profit center master.',r:'Set up a profit center for a new business line.'},
+  {c:'KSB1',m:'CO',n:'Cost Center Line Items',u:'Actual postings on cost centers.',r:'Show a manager every cost charged to their department this month.'},
+  {c:'KE30',m:'CO',n:'COPA Report',u:'Run profitability analysis report.',r:'Produce a margin-by-product report for the sales head.'},
+  {c:'ME21N',m:'MM',n:'Create Purchase Order',u:'Your daily PO creation.',r:'Raise a PO for 500 units once the budget is approved.'},
+  {c:'ME22N',m:'MM',n:'Change PO',u:'Edit an existing PO.',r:'Correct a wrong tax code on a PO so the invoice can match.'},
+  {c:'ME23N',m:'MM',n:'Display PO',u:'View a purchase order.',r:'Check a PO’s details when a vendor queries their order.'},
+  {c:'ME51N',m:'MM',n:'Create Requisition',u:'Purchase requisition (demand).',r:'Raise a requisition for new office equipment a team requested.'},
+  {c:'MIGO',m:'MM',n:'Goods Movement',u:'Goods receipt (101), GI, transfers.',r:'Post a partial goods receipt for 480 of 500 ordered units.'},
+  {c:'MIRO',m:'MM',n:'Invoice Verification',u:'3-way match invoice posting.',r:'Investigate a vendor’s blocked invoice and find a ₹5,000 price variance.'},
+  {c:'MIR4',m:'MM',n:'Display Invoice Doc',u:'View a logistics invoice document.',r:'Open the exact invoice document a vendor is asking about.'},
+  {c:'MIR6',m:'MM',n:'Invoice Overview',u:'Monitor / select invoice documents.',r:'List all parked invoices to clear a month-end backlog.'},
+  {c:'MRBR',m:'MM',n:'Release Blocked Inv.',u:'Release invoices blocked for variance.',r:'Release a blocked invoice once the price variance is approved.'},
+  {c:'MMBE',m:'MM',n:'Stock Overview',u:'Stock by plant / storage location.',r:'Check stock on hand before promising a customer a delivery date.'},
+  {c:'MB52',m:'MM',n:'Warehouse Stock',u:'Current stock & value listing.',r:'List current stock and value for a plant physical-inventory audit.'},
+  {c:'MB5L',m:'MM',n:'Stock vs G/L',u:'Reconcile stock value to G/L.',r:'Reconcile stock value to the GL account when the two don’t match.'},
+  {c:'OBYA',m:'FI',n:'Intercompany Clearing',u:'Cross-company-code config.',r:'Configure clearing accounts so intercompany postings balance.'},
+  {c:'OB08',m:'FI',n:'Exchange Rates',u:'Maintain currency exchange rates.',r:'Update the USD–INR rate before a batch of foreign-currency postings.'}
+];
+
+/* QA / TESTING ARENA */
+D.qa={
+  concepts:[
+    {icon:'🔬', t:'Unit Testing', d:'Test a single configuration or object in isolation — does this one thing work on its own?',
+     rw:'After creating a new GL account in FS00, you post a single test document in FB50 in the QA client to confirm it accepts entries and hits the right account — before anyone else depends on it.'},
+    {icon:'🔗', t:'Integration Testing (SIT)', d:'Test how modules work together end-to-end across a full business process.',
+     rw:'You run the entire P2P cycle in the QA client — PO (ME21N) → GR (MIGO) → invoice (MIRO) → payment (F110) — to prove MM postings flow correctly into FI through OBYC.'},
+    {icon:'✅', t:'User Acceptance Testing (UAT)', d:'Business users validate the system does what they actually need, using real test scripts, before go-live sign-off.',
+     rw:'The AP team processes a week of real-style invoices in UAT and formally signs off that blocked-invoice handling and the payment run behave as expected.'},
+    {icon:'♻️', t:'Regression Testing', d:'Re-test existing, working features after any change or support pack to make sure nothing broke.',
+     rw:'After a support-package upgrade, you re-run your saved F110 and MIRO test scripts to confirm the payment program and invoice posting still work exactly as before.'}
+  ],
+  expect:[
+    {icon:'📝', t:'Test scripts', d:'Step-by-step documents with test data, the steps to perform, the expected result, and a pass/fail column. You will be expected to both write and execute them.'},
+    {icon:'🛠️', t:'Tools used', d:'Defects & test cases are tracked in Jira, HP/Micro Focus ALM, or Tricentis qTest. SAP-specific testing is often managed in Solution Manager (SolMan).'},
+    {icon:'🐞', t:'Logging a defect', d:'Every defect needs: a clear summary, exact steps to reproduce, expected vs actual result, severity & priority, the system/client, and screenshots — then assign it to the right consultant.'},
+    {icon:'🔁', t:'Test cycles', d:'Work moves SIT → UAT → cutover, with daily defect-triage calls where open issues are reviewed, prioritized, and assigned.'}
+  ],
+  scenarios:[
+    {t:'Test OBYC MM-FI integration via a GR/IR variance', steps:[
+      'Create a PO in ME21N for 100 units at ₹50 (total ₹5,000).',
+      'Post a goods receipt in MIGO (mvt 101). Open the material document’s accounting view and confirm: Dr Inventory / Cr GR/IR ₹5,000.',
+      'Post the invoice in MIRO but at ₹55/unit (₹5,500).',
+      'Expected: the invoice blocks for price variance; the difference routes to the price-difference (PRD) account or stock per material type.',
+      'Check the GR/IR balance via MB5L / FBL3N and confirm it reflects the open item.',
+      'Log the result (pass/fail) with a screenshot of the block message.'
+    ]},
+    {t:'Validate an Automatic Payment Program run (F110)', steps:[
+      'Ensure there are open, due vendor invoices in the test client.',
+      'In F110, enter Parameters: company code, payment method, vendors, and dates.',
+      'Generate the Proposal and confirm only items that are due AND have a valid payment method are selected.',
+      'Run the Payment and open the payment document — verify Dr Vendor / Cr Bank and that the vendor’s open items are now cleared.',
+      'Negative test: include a vendor with no payment method and confirm they are skipped, with the reason shown in the proposal log.',
+      'Log both the positive and negative results.'
+    ]},
+    {t:'UAT a new customer dunning run', steps:[
+      'Create or identify overdue customer open items in the test client.',
+      'Run the dunning proposal and review the proposed dunning levels.',
+      'Confirm each customer gets the correct dunning level and letter text.',
+      'Have the AR business user review the output and sign off.',
+      'Capture screenshots of the dunning list and the sign-off note.'
+    ]}
+  ]
+};
+
+D.iq={
+  Beginner:[
+    {q:'What is SAP FICO?', a:'FI = Financial Accounting (external: GL, AP, AR, AA, Bank). CO = Controlling (internal: cost/profit centers, internal orders, COPA). Together: full financial + management accounting.', w:'A crisp definition + that it is two integrated modules.'},
+    {q:'What is a Company Code?', a:'The smallest org unit for which a complete set of legal financial statements (balance sheet + P&L) can be drawn — the central FI org element.', w:'Linking it to legal/statutory reporting.'},
+    {q:'Chart of Accounts vs Company Code?', a:'COA is the list of G/L accounts; one COA can serve many company codes. The company code is the legal entity using them.', w:'The 1-to-many relationship.'},
+    {q:'What is a Fiscal Year Variant?', a:'Defines posting periods (usually 12) plus up to 4 special periods for year-end adjustments.', w:'Mention special periods.'},
+    {q:'FB60 vs MIRO?', a:'FB60 posts a vendor invoice directly in FI with no PO. MIRO posts a logistics invoice matched to a PO and goods receipt (3-way match).', w:'Right tool for PO vs non-PO.'},
+    {q:'What is a reconciliation account?', a:'A G/L account linked to sub-ledgers (AP/AR/AA); you cannot post to it directly — postings flow from the sub-ledger to keep them in sync.', w:'Direct posting is blocked.'},
+    {q:'What is GR/IR?', a:'Goods Receipt / Invoice Receipt — an interim clearing account. GR credits it, MIRO debits it. A balance means GR or invoice is pending.', w:'Reading a GR/IR balance.'},
+    {q:'What is a Posting Key?', a:'A two-digit key controlling debit/credit and account type (40 GL debit, 50 GL credit, 31 vendor credit, 01 customer debit).', w:'A couple of real keys.'},
+    {q:'What is a Document Type?', a:'Classifies the FI document and controls number ranges and allowed account types (KR, DR, SA, AB).', w:'Examples + number range control.'},
+    {q:'Special G/L indicator?', a:'Maps alternative transactions (down payments, bills of exchange, guarantees) to a different reconciliation account.', w:'Down payment as the example.'},
+    {q:'What is dunning?', a:'Automated, escalating payment reminders to customers with overdue items.', w:'Config-driven and tiered.'},
+    {q:'What is the Universal Journal?', a:'ACDOCA — the single S/4HANA line-item table merging FI and CO, removing reconciliation between them.', w:'Naming ACDOCA + the FI/CO merge.'}
+  ],
+  Experienced:[
+    {q:'Explain F110 (Automatic Payment Program).', a:'Four steps: (1) Parameters, (2) Proposal, (3) edit/approve & run Payment, (4) print/DME. It selects due open items and creates payment documents.', w:'The 4 steps in order.'},
+    {q:'How does MM-FI integration work?', a:'Movements auto-post via OBYC: GR debits inventory (BSX)/credits GR/IR (WRX); invoice clears WRX vs vendor; price differences hit PRD.', w:'OBYC + BSX/WRX/PRD.'},
+    {q:'Validation vs Substitution?', a:'Validation checks a posting and blocks/warns. Substitution replaces a field value during posting. Both use prerequisite → check/replace.', w:'Block vs replace.'},
+    {q:'Foreign Currency Valuation?', a:'At period-end, foreign-currency items/balances are revalued at closing rate; unrealized gains/losses post, then reverse next period.', w:'Unrealized vs realized + reversal.'},
+    {q:'What is a Field Status Group?', a:'Controls whether fields are suppressed, required or optional when posting to a G/L account — via the account and field status variant.', w:'Suppress/required/optional + FSV.'},
+    {q:'Asset Accounting in S/4HANA?', a:'New Asset Accounting posts depreciation and all values in real time to ACDOCA; the reconciliation ledger and periodic ASKB run are gone; parallel ledgers handle multiple valuations.', w:'Real-time + ledger approach.'},
+    {q:'What is a Tolerance Group?', a:'Limits on payment differences and posting amounts per user/customer/vendor.', w:'Posting authority + payment diffs.'},
+    {q:'New G/L & document splitting?', a:'New G/L enables parallel ledgers, segment reporting and document splitting — splitting a document by dimension so each gives a balanced sub-statement.', w:'Zero-balance per segment.'},
+    {q:'Month-end close in FICO?', a:'Open period (OB52), accruals, FX valuation, depreciation (AFAB), GR/IR regrouping, recurring entries, reconcile sub-ledgers, close, run statements.', w:'A sequenced checklist.'},
+    {q:'Parallel accounting / ledgers?', a:'Books under multiple standards (local GAAP + IFRS) using leading and non-leading ledgers, valued independently in ACDOCA.', w:'Leading vs non-leading.'}
+  ]
+};
+D.iq.Scenario=[
+  {q:'A vendor invoice is blocked for payment. What do you check?', a:'Identify the block reason in MIRO/MRBR (price, quantity, date). Compare PO ↔ GR ↔ invoice, check tolerances, fix the cause or get approval, release via MRBR.', w:'A diagnostic flow ending in MRBR.'},
+  {q:'GR/IR open balance at year-end — meaning?', a:'Goods received not invoiced, or invoiced not received. Analyze via F.13/MR11 and regroup to receivables/payables.', w:'Both directions + MR11/F.13.'},
+  {q:'Depreciation didn’t post for an asset. Debug?', a:'Check capitalization, useful life, depreciation key/area, asset not blocked, and whether AFAB ran. Re-run AFAB in repeat/restart.', w:'Structured root-cause.'},
+  {q:'F110 skipped a vendor. Why?', a:'No valid payment method, payment block, not yet due, below minimum, or house bank not configured. The proposal log shows it.', w:'Read the F110 exception log.'},
+  {q:'Split costs between two departments automatically?', a:'CO allocation: assessment (secondary cost elements) or distribution (primary elements) cycles to receivers by a defined basis.', w:'Assessment vs distribution.'},
+  {q:'Enforce a max amount on a G/L account?', a:'A Validation: prerequisite (that account) → check (amount within limit) → message, active for the company code.', w:'Validation, not a workaround.'},
+  {q:'Prevent duplicate vendor invoices?', a:'Activate the duplicate-invoice check in the vendor master and config (reference/date/amount); MIRO then warns/errors.', w:'Master flag + config.'},
+  {q:'Margin by product line — which module?', a:'COPA. Define characteristics and value fields/accounts; in S/4HANA, account-based COPA reads from ACDOCA.', w:'COPA + account-based default.'}
+];
+D.iq['P2P-specific']=[
+  {q:'Walk me through the 3-way match.', a:'Match PO (price/qty), GR (qty received) and Invoice (billed). All agree within tolerance → posts & pays; else blocked.', w:'PO ↔ GR ↔ Invoice.'},
+  {q:'Accounting entries across P2P?', a:'PR/PO: none. GR: Dr Inventory / Cr GR/IR. MIRO: Dr GR/IR / Cr Vendor. F110: Dr Vendor / Cr Bank.', w:'All four entries in sequence.'},
+  {q:'First financial posting in P2P?', a:'At Goods Receipt (MIGO), not PO. The PO is only a commitment.', w:'PO is not the posting point.'},
+  {q:'GR-based vs PO-based IV?', a:'PO-based matches the invoice to the PO total; GR-based matches each line to a specific goods receipt — needed for partial deliveries.', w:'GR-based flag + why.'},
+  {q:'Price differences at invoice posting?', a:'If invoice ≠ PO/GR and stock is insufficient, the difference posts to PRD (standard price) or to stock (moving average).', w:'PRD + standard vs MA.'},
+  {q:'Receive more goods than ordered?', a:'Depends on the over-delivery tolerance in PO/material master. Within → GR posts; beyond → block/error.', w:'Tolerances live in PO/master.'},
+  {q:'Reverse a goods receipt?', a:'MIGO with movement type 102 (or cancel the material doc). Reverses Dr GR/IR / Cr Inventory.', w:'Mvt type 102.'},
+  {q:'Consumables vs stock material?', a:'Stock GR debits inventory. Consumables (account-assigned PO) debit the expense/cost object at GR — no inventory posting.', w:'Account assignment drives it.'}
+];
+
+D.certs=[
+  {tag:'Start here', code:'C_TS4FI', t:'SAP Certified Associate — Financial Accounting (S/4HANA Cloud, Private Edition)', lvl:'Associate', why:'The entry-level FI trial and natural first target from a P2P/AP background.', topics:['General Ledger','AP / AR','Asset Accounting','Financial Closing','Process Integration']},
+  {tag:'Pair with FI', code:'C_TS4CO', t:'SAP Certified Associate — Management Accounting (S/4HANA Cloud, Private Edition)', lvl:'Associate', why:'The Controlling counterpart. FI+CO together = a full FICO consultant.', topics:['Cost / Profit Center','Internal Orders','Product Costing','COPA','Period-End Closing']},
+  {tag:'Cloud route', code:'C_S4CFI', t:'SAP Certified Associate — Implementation Consultant, FI (S/4HANA Cloud Public Edition)', lvl:'Associate', why:'For Public Cloud / RISE projects — implementation-focused, scenario-heavy.', topics:['Cloud config & Fiori','Org structures','GL/AP/AR setup','Closing']},
+  {tag:'Long-term', code:'P_*', t:'SAP Certified Professional — Financials in S/4HANA', lvl:'Professional', why:'After 3–5 yrs of real project experience — the premium-salary tier.', topics:['Advanced config','Solution design','Multiple GAAP / ledgers','Full implementation']}
+];
+D.certPlan=[
+  {wk:'Weeks 1–2', t:'Foundations', d:'GL + org structures (company code, COA, fiscal year, periods). Map them to what you see at Infosys.'},
+  {wk:'Weeks 3–4', t:'Your strength: AP + P2P', d:'AP, invoice verification, F110, MM-FI (OBYC) — learn the config behind what you already do.'},
+  {wk:'Weeks 5–6', t:'AR + Asset Accounting', d:'Customer cycle, dunning, New Asset Accounting in S/4HANA.'},
+  {wk:'Weeks 7–8', t:'Closing + S/4 specifics', d:'Month-end close, ACDOCA, Business Partner, parallel ledgers.'},
+  {wk:'Weeks 9–10', t:'Scenario practice', d:'Trials are scenario-based — mock tests focused on the "why" and config reasoning.'}
+];
+
+/* QUIZZES (incl. new QA bank) */
+const QUIZZES={
+  tcode:{title:'Spell Quiz', emoji:'📜', q:[
+    {q:'Which T-code runs the Automatic Payment Program?', o:['F-53','F110','FB60','MIRO'], a:1},
+    {q:'MIGO is used for…', o:['Vendor payment','Goods movement / GR','G/L posting','Asset creation'], a:1},
+    {q:'Which posts a logistics (PO-based) invoice?', o:['FB60','MIRO','FB50','F-28'], a:1},
+    {q:'Create a cost center with…', o:['KO01','KS01','KE51','FS00'], a:1},
+    {q:'OBYC controls…', o:['Posting periods','Automatic account determination','Dunning','Exchange rates'], a:1},
+    {q:'Reconcile stock value to G/L using…', o:['MB5L','MMBE','ME21N','AFAB'], a:0}
+  ]},
+  flow:{title:'P2P Flow Quiz', emoji:'⚔️', q:[
+    {q:'First financial posting in P2P happens at…', o:['Purchase Order','Goods Receipt','Requisition','RFQ'], a:1},
+    {q:'GR posting entry is…', o:['Dr Vendor / Cr Bank','Dr Inventory / Cr GR/IR','Dr GR/IR / Cr Vendor','Dr Expense / Cr AP'], a:1},
+    {q:'A blocked invoice is released via…', o:['MIRO','MRBR','F110','MIGO'], a:1},
+    {q:'3-way match compares PO, GR and…', o:['Payment','Invoice','Requisition','Quotation'], a:1},
+    {q:'Movement type for standard goods receipt?', o:['101','201','601','311'], a:0}
+  ]},
+  acct:{title:'Accounting Entries', emoji:'🧮', q:[
+    {q:'Invoice verification (MIRO) entry:', o:['Dr GR/IR / Cr Vendor','Dr Vendor / Cr Bank','Dr Inventory / Cr GR/IR','Dr AR / Cr Revenue'], a:0},
+    {q:'Vendor payment (F110) entry:', o:['Dr Inventory / Cr GR/IR','Dr Vendor / Cr Bank','Dr GR/IR / Cr Vendor','Dr Bank / Cr Vendor'], a:1},
+    {q:'A reconciliation account can be posted to…', o:['Directly','Only via sub-ledger','Never','Only at year-end'], a:1},
+    {q:'In S/4HANA, all FI+CO line items live in…', o:['BSEG','ACDOCA','BKPF','COEP'], a:1},
+    {q:'Price difference (standard price) posts to…', o:['GR/IR','PRD account','Vendor','Bank'], a:1}
+  ]},
+  scen:{title:'Scenario Quiz', emoji:'🎯', q:[
+    {q:'F110 skipped a vendor. First thing you check?', o:['Restart SAP','The proposal exception log','Delete the vendor','Re-create the PO'], a:1},
+    {q:'Customer overdue items need reminders. Use…', o:['F110','Dunning','COPA','AFAB'], a:1},
+    {q:'Enforce a max amount on a G/L account. Use…', o:['Substitution','Validation','Tolerance only','Field status'], a:1},
+    {q:'Margin by product line is analyzed in…', o:['AA','COPA','Bank','AR'], a:1},
+    {q:'Goods received but not invoiced shows as balance in…', o:['Vendor','GR/IR','Bank','Inventory only'], a:1}
+  ]},
+  qa:{title:'QA & Testing Quiz', emoji:'🧪', q:[
+    {q:'Business users validate the system before go-live in…', o:['Unit testing','UAT','Regression','Smoke test'], a:1},
+    {q:'Re-testing working features after a support pack is…', o:['Unit testing','Regression testing','UAT','Integration'], a:1},
+    {q:'A defect report must always include…', o:['Only a summary','Steps, expected vs actual + screenshot','Just a screenshot','The vendor name'], a:1},
+    {q:'Running PO→GR→MIRO→F110 together tests…', o:['Unit','Integration','Regression','UAT only'], a:1},
+    {q:'A tool commonly used to log SAP defects:', o:['MIRO','Jira / HP ALM','OBYC','F110'], a:1},
+    {q:'Testing one config object in isolation is…', o:['Integration','Unit testing','UAT','Regression'], a:1}
+  ]}
+};
+
+/* =====================================================================
+   GAMIFICATION
+   ===================================================================== */
+function earn(amount, reason, sound){
+  if(sound===undefined)sound=true;
+  const before=curLevel().name;
+  S.coins+=amount; save();
+  const after=curLevel().name;
+  paintHeader();
+  if(before!==after){haptic([30,30,30]);levelUp(curLevel());}
+  else {if(sound)sndCoin();toast('+₹'+amount, reason||'Treasure collected!', '💰');}
+}
+function levelUp(lvl){
+  confetti();sndComplete();
+  showModal('<div class="p-7 text-center">'+
+    '<div class="text-6xl mb-3 pop">'+lvl.emoji+'</div>'+
+    '<p class="text-xs uppercase tracking-widest text-amber-500 font-bold">✨ New rank reached ✨</p>'+
+    '<h3 class="text-2xl font-extrabold mt-1 gradtext">'+lvl.name+'</h3>'+
+    '<p class="text-sm font-semibold text-amber-600 mt-1">You have entered '+lvl.realm+'</p>'+
+    '<p class="text-slate-500 dark:text-slate-400 mt-2 text-sm">'+lvl.blurb+'</p>'+
+    '<button onclick="closeModal()" class="tap mt-5 px-6 py-3 rounded-xl gradbg text-white font-bold">Onward 🚀</button></div>');
+}
+function awardBadge(id){
+  if(S.badges.includes(id))return;
+  S.badges.push(id); save();
+  const b=BADGES[id]; confetti(); haptic([30,30,30]); sndComplete();
+  toast('Trophy won: '+b.t, b.d, b.e);
+  if(curView==='dashboard') rerender();
+}
+function checkStreakBadge(){if(S.streak>=7) awardBadge('streak7');}
+
+/* completion + checkboxes */
+function isDone(k){return S.done.includes(k);}
+function toggleDone(key, coins, label){
+  coins=coins||10;
+  const i=S.done.indexOf(key);
+  if(i<0){
+    S.done.push(key);
+    if(!S.claimed.includes(key)){S.claimed.push(key);save();earn(coins,label||'Marked complete');}
+    else {save();sndCorrect();}
+  } else {S.done.splice(i,1);save();haptic(15);}
+  checkProgressBadges();
+  rerender();
+}
+function checkProgressBadges(){
+  if(S.done.filter(k=>k.indexOf('fico:')===0).length>=12) awardBadge('fico');
+  if(S.done.filter(k=>k.indexOf('qa:')===0).length>=4) awardBadge('qa');
+}
+function doneCount(prefix,total){const n=S.done.filter(k=>k.indexOf(prefix)===0).length;return Math.min(n,total);}
+
+function toast(title, sub, emoji){
+  const wrap=document.getElementById('toasts');
+  const el=document.createElement('div');
+  el.className='toast pointer-events-auto flex items-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl rounded-xl px-4 py-3 max-w-xs';
+  el.innerHTML='<div class="text-2xl">'+(emoji||'✨')+'</div><div><div class="font-bold text-sm">'+title+'</div>'+(sub?'<div class="text-xs text-slate-500 dark:text-slate-400">'+sub+'</div>':'')+'</div>';
+  wrap.appendChild(el);
+  setTimeout(function(){el.style.transition='all .4s';el.style.opacity='0';el.style.transform='translateY(10px)';setTimeout(function(){el.remove();},400);},2500);
+}
+
+function confetti(){
+  const cv=document.getElementById('cfx'); cv.classList.remove('hidden');
+  const ctx=cv.getContext('2d'); cv.width=innerWidth; cv.height=innerHeight;
+  const cols=['#0066CC','#22d3ee','#f5c518','#22c55e','#ec4899','#a855f7'];
+  let P=Array.from({length:120},function(){return{x:innerWidth/2+(Math.random()-.5)*200,y:innerHeight/2,vx:(Math.random()-.5)*11,vy:Math.random()*-13-4,g:.32+Math.random()*.2,s:5+Math.random()*7,c:cols[Math.random()*cols.length|0],r:Math.random()*6,vr:(Math.random()-.5)*.4};});
+  let t=0;
+  (function loop(){
+    ctx.clearRect(0,0,cv.width,cv.height); t++;
+    P.forEach(function(p){p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);ctx.restore();});
+    if(t<120) requestAnimationFrame(loop); else cv.classList.add('hidden');
+  })();
+}
+
+function showModal(html){const m=document.getElementById('modal');document.getElementById('modalBox').innerHTML=html;m.classList.remove('hidden');m.classList.add('flex');}
+function closeModal(){const m=document.getElementById('modal');m.classList.add('hidden');m.classList.remove('flex');}
+
+/* =====================================================================
+   NAVIGATION — bottom bar + "More" sheet
+   ===================================================================== */
+const VIEWS={
+  dashboard:{icon:'🏰', label:'Home',   fn:renderDashboard},
+  p2p:      {icon:'⚔️', label:'P2P',    fn:renderP2P},
+  tcodes:   {icon:'📜', label:'Codes',  fn:renderTcodes},
+  qa:       {icon:'🧪', label:'QA',     fn:renderQA},
+  role:     {icon:'🛡️', label:'My Powers', fn:renderRole},
+  fico:     {icon:'🗺️', label:'FICO Realms', fn:renderFico},
+  certs:    {icon:'🎓', label:'Certifications', fn:renderCerts},
+  interview:{icon:'🐉', label:'Boss Battles', fn:renderInterview},
+  quizzes:  {icon:'🎯', label:'Training', fn:renderQuizzes},
+  jobkit:   {icon:'👑', label:'Claim the Crown', fn:renderJobkit}
+};
+const BOTTOM=['dashboard','p2p','tcodes','qa'];   // + More
+const MORE=['quizzes','interview','role','fico','certs','jobkit'];
+let curView='dashboard';
+
+function buildNav(){
+  let h='';
+  BOTTOM.forEach(function(id){
+    h+='<button data-id="'+id+'" onclick="go(\''+id+'\')" class="bnavbtn tap flex flex-col items-center justify-center gap-0.5 h-16 text-slate-500 dark:text-slate-400">'+
+       '<span class="text-xl">'+VIEWS[id].icon+'</span><span class="text-[10px] font-semibold">'+VIEWS[id].label+'</span></button>';
+  });
+  h+='<button onclick="openMore()" id="moreBtn" class="tap flex flex-col items-center justify-center gap-0.5 h-16 text-slate-500 dark:text-slate-400">'+
+     '<span class="text-xl">☰</span><span class="text-[10px] font-semibold">More</span></button>';
+  document.getElementById('bnav').innerHTML=h;
+  let g='';
+  MORE.forEach(function(id){
+    g+='<button onclick="go(\''+id+'\');closeMore()" class="tap flex items-center gap-3 p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 text-left">'+
+       '<span class="text-2xl">'+VIEWS[id].icon+'</span><span class="font-bold text-sm">'+VIEWS[id].label+'</span></button>';
+  });
+  document.getElementById('moreGrid').innerHTML=g;
+}
+function setNavActive(){
+  document.querySelectorAll('.bnavbtn').forEach(function(b){b.classList.toggle('navactive',b.dataset.id===curView);});
+  const mb=document.getElementById('moreBtn'); if(mb) mb.classList.toggle('navactive', MORE.indexOf(curView)>=0);
+}
+function go(id){
+  curView=id; sndTap();
+  document.getElementById('pageTitle').textContent=VIEWS[id].label;
+  VIEWS[id].fn();
+  setNavActive();
+  window.scrollTo(0,0);
+}
+function rerender(){const y=window.scrollY;VIEWS[curView].fn();setNavActive();window.scrollTo(0,y);}
+function openMore(){const w=document.getElementById('sheetWrap');w.classList.remove('hidden');requestAnimationFrame(function(){document.getElementById('sheet').classList.remove('sheet-hidden');});}
+function closeMore(){document.getElementById('sheet').classList.add('sheet-hidden');setTimeout(function(){document.getElementById('sheetWrap').classList.add('hidden');},300);}
+
+function toggleTheme(){const dark=document.documentElement.classList.toggle('dark');S.theme=dark?'dark':'light';save();document.getElementById('themeIcon').textContent=dark?'🌙':'☀️';}
+function toggleSound(){S.sound=!S.sound;save();document.getElementById('soundIcon').textContent=S.sound?'🔊':'🔇';if(S.sound){ensureAudio();sndCoin();}}
+
+function paintHeader(){
+  document.getElementById('hStreak').textContent=S.streak;
+  document.getElementById('hCoins').textContent=S.coins;
+}
+
+/* helpers */
+function card(inner,cls){return '<div class="cardtap bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 '+(cls||'')+'">'+inner+'</div>';}
+function pill(t,c){return '<span class="text-[11px] font-semibold px-2 py-0.5 rounded-full '+c+'">'+t+'</span>';}
+function intro(emoji,title,text){return '<div class="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 relative overflow-hidden"><div class="absolute right-3 top-2 text-3xl spark select-none">✨</div><h3 class="text-xl font-extrabold flex items-center gap-2">'+emoji+' '+title+'</h3><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">'+text+'</p></div>';}
+function checkbox(key){var d=isDone(key);return '<span onclick="event.stopPropagation();toggleDone(\''+key+'\',15,\'Marked studied\')" role="checkbox" aria-checked="'+d+'" class="shrink-0 w-11 h-11 -mr-2 grid place-items-center cursor-pointer active:scale-90 transition"><span class="w-6 h-6 rounded-md border-2 grid place-items-center text-white text-sm '+(d?'bg-green-500 border-green-500':'border-slate-300 dark:border-slate-600')+'">'+(d?'✓':'')+'</span></span>';}
+function progressBar(prefix,total,label){var n=doneCount(prefix,total);var pct=Math.round(n/total*100);return '<div class="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 p-4"><div class="flex items-center justify-between text-sm"><span class="font-semibold">'+label+'</span><span class="font-bold text-sap-500">'+n+' / '+total+'</span></div><div class="h-2.5 rounded-full bg-slate-200 dark:bg-slate-800 mt-2 overflow-hidden"><div class="h-full shinegold" style="width:'+pct+'%"></div></div></div>';}
+
+/* =====================================================================
+   DASHBOARD
+   ===================================================================== */
+function renderDashboard(){
+  var lvl=curLevel(), nxt=nextLevel();
+  var span=nxt?nxt.min-lvl.min:1;
+  var pct=nxt?Math.min(100,Math.round((S.coins-lvl.min)/span*100)):100;
+  var circ=2*Math.PI*52, off=circ-circ*pct/100;
+  var quote=D.quotes[Math.floor((Date.now()/8.64e7)%D.quotes.length)];
+  var job=D.jobs[Math.floor((Date.now()/8.64e7)%D.jobs.length)];
+  var trophies=Object.keys(BADGES).map(function(id){var b=BADGES[id],got=S.badges.indexOf(id)>=0;return '<div class="text-center '+(got?'':'opacity-30 grayscale')+'" title="'+b.d+'"><div class="text-2xl '+(got?'pop':'')+'">'+b.e+'</div><div class="text-[10px] mt-0.5 '+(got?'text-amber-500 font-semibold':'text-slate-400')+'">'+b.t+'</div></div>';}).join('');
+
+  document.getElementById('content').innerHTML=
+  '<div class="space-y-5 fadein">'+
+    '<div class="gradbg rounded-3xl p-6 text-white relative overflow-hidden">'+
+      '<div class="absolute -right-6 -top-6 text-[110px] opacity-20 floaty select-none">🚀</div>'+
+      '<div class="absolute right-20 top-8 text-3xl spark select-none">✨</div>'+
+      '<p class="text-sap-50/90 text-sm font-medium">Welcome back, hero 👋</p>'+
+      '<h2 class="text-xl md:text-2xl font-extrabold mt-1 leading-tight">Rise from the Infosys Support Guild to the ₹15–30 LPA realm of SAP FICO.</h2>'+
+      '<p class="text-sap-50/90 mt-2 text-sm">Every spell you already cast — MIRO, MIGO, vendor masters — counts.</p>'+
+      '<div class="flex flex-wrap gap-2 mt-4">'+
+        '<button onclick="go(\'p2p\')" class="tap px-4 py-3 rounded-xl bg-white text-sap-600 font-bold text-sm">Begin P2P ⚔️</button>'+
+        '<button onclick="go(\'qa\')" class="tap px-4 py-3 rounded-xl bg-white/15 text-white font-bold text-sm">QA Arena 🧪</button>'+
+        '<button onclick="go(\'quizzes\')" class="tap px-4 py-3 rounded-xl bg-white/15 text-white font-bold text-sm">Training 🎯</button>'+
+      '</div>'+
+    '</div>'+
+
+    '<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 stagger">'+
+      card('<div class="p-5 flex items-center gap-4">'+
+        '<div class="relative w-24 h-24 shrink-0"><svg width="96" height="96" class="-rotate-90">'+
+        '<circle cx="48" cy="48" r="42" stroke="currentColor" class="text-slate-200 dark:text-slate-800" stroke-width="8" fill="none"/>'+
+        '<circle cx="48" cy="48" r="42" stroke="url(#g1)" stroke-width="8" fill="none" stroke-linecap="round" class="ring-anim" stroke-dasharray="'+(2*Math.PI*42)+'" stroke-dashoffset="'+((2*Math.PI*42)-(2*Math.PI*42)*pct/100)+'"/>'+
+        '<defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0066CC"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs></svg>'+
+        '<div class="absolute inset-0 flex flex-col items-center justify-center"><span class="text-2xl">'+lvl.emoji+'</span><span class="text-xs font-bold">'+pct+'%</span></div></div>'+
+        '<div><div class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Your rank</div><div class="text-lg font-extrabold gradtext">'+lvl.name+'</div><div class="text-xs text-slate-500 mt-1">'+(nxt?'₹'+(nxt.min-S.coins)+' to '+nxt.name+' '+nxt.emoji:'Top rank 🎉')+'</div></div>'+
+      '</div>')+
+      card('<div class="p-5"><div class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Daily streak</div><div class="flex items-end gap-2 mt-1"><span class="text-4xl font-extrabold text-orange-500">'+S.streak+'</span><span class="text-2xl mb-1">🔥</span></div><div class="text-xs text-slate-500 mt-1">'+(S.streak>=7?'On fire!':'Reach 7 for a trophy.')+'</div><div class="flex gap-1 mt-3">'+Array.from({length:7},function(_,i){return '<div class="h-2 flex-1 rounded-full '+(i<Math.min(S.streak,7)?'bg-orange-400':'bg-slate-200 dark:bg-slate-800')+'"></div>';}).join('')+'</div></div>')+
+      card('<div class="p-5"><div class="text-xs text-slate-400 font-semibold uppercase tracking-wide">💰 Treasure earned</div><div class="flex items-end gap-1 mt-1"><span class="text-2xl mb-1">₹</span><span class="text-4xl font-extrabold goldtext">'+S.coins+'</span><span class="text-2xl mb-1">💵</span></div><div class="text-xs text-slate-500 mt-1">'+S.badges.length+'/'+Object.keys(BADGES).length+' trophies won</div><div class="h-2 rounded-full bg-slate-200 dark:bg-slate-800 mt-3 overflow-hidden"><div class="h-full shinegold" style="width:'+pct+'%"></div></div></div>')+
+    '</div>'+
+
+    '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">'+
+      card('<div class="p-5"><div class="text-3xl mb-2">📜</div><p class="font-semibold italic leading-relaxed">'+quote+'</p><div class="text-xs text-slate-400 mt-3">Scroll of the day</div></div>','bg-gradient-to-br from-sap-50 to-cyan-50 dark:from-slate-900 dark:to-slate-900')+
+      card('<div class="p-5"><div class="flex items-center justify-between mb-2"><h3 class="font-bold">🗺️ Bounty of the Day</h3>'+pill(job.p,'goldbg text-amber-900 font-bold')+'</div><div class="font-extrabold text-lg">'+job.t+'</div><div class="text-sm text-slate-500">'+job.c+'</div><div class="text-xs text-slate-400 mt-2">Quest brief: '+job.n+'</div><button onclick="go(\'jobkit\')" class="tap mt-3 text-sm font-bold text-sap-500">Open the treasure map →</button></div>')+
+    '</div>'+
+
+    card('<div class="p-5"><h3 class="font-bold mb-3">🏆 Trophy hall</h3><div class="grid grid-cols-3 sm:grid-cols-5 gap-3">'+trophies+'</div></div>')+
+  '</div>';
+}
+
+/* =====================================================================
+   MY POWERS
+   ===================================================================== */
+function renderRole(){
+  document.getElementById('content').innerHTML=
+  '<div class="space-y-4 fadein">'+
+    intro('🛡️','Your starting powers','You already wield ~40% of the P2P arts. Tap a card to read a real on-the-job scenario; tick it once it feels solid.')+
+    '<div class="space-y-3 stagger">'+
+    D.role.map(function(r,i){var k='role:'+i;return '<div onclick="roleInfo('+i+')" class="cardtap bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 flex items-start gap-3 cursor-pointer">'+
+      '<div class="text-3xl">'+r.icon+'</div>'+
+      '<div class="min-w-0 flex-1"><div class="flex items-center justify-between gap-2"><h4 class="font-bold">'+r.t+'</h4>'+pill(r.codes,'bg-sap-50 dark:bg-sap-500/15 text-sap-600 dark:text-sap-300 font-mono shrink-0')+'</div>'+
+      '<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">'+r.desc+'</p>'+
+      '<p class="text-[11px] text-amber-600 mt-1 font-semibold">📌 Tap for a real scenario</p></div>'+
+      checkbox(k)+'</div>';}).join('')+
+    '</div>'+
+    card('<div class="p-5"><h4 class="font-bold mb-2">🧰 Spells you already cast</h4><div class="flex flex-wrap gap-2">'+['MIRO','FB60','MIGO','XK01','FK01','ME21N','ME22N','ME23N','MIR4','MIR6','MRBR','MMBE','MB52'].map(function(c){return pill(c,'bg-slate-100 dark:bg-slate-800 font-mono text-slate-700 dark:text-slate-200');}).join('')+'</div><button onclick="markReady(\'roleready\',\'You see your powers clearly now!\')" class="tap mt-4 px-5 py-3 rounded-xl gradbg text-white font-bold text-sm">Claim my powers ✓ (+₹30 💰)</button></div>')+
+  '</div>';
+}
+function roleInfo(i){var r=D.role[i];var k='role:'+i;
+  showModal('<div class="p-6"><div class="flex items-center gap-3 mb-3"><div class="text-3xl">'+r.icon+'</div><div><h3 class="text-lg font-extrabold">'+r.t+'</h3><span class="text-xs font-mono text-sap-500">'+r.codes+'</span></div></div>'+
+  '<div class="space-y-3 text-sm">'+
+  '<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3"><b class="text-xs uppercase text-slate-400">What it is</b><p class="mt-0.5">'+r.desc+'</p></div>'+
+  '<div class="bg-amber-50 dark:bg-amber-500/10 rounded-xl p-3"><b class="text-xs uppercase text-amber-600">🏢 Real corporate scenario</b><p class="mt-0.5">'+r.rw+'</p></div>'+
+  '<div class="bg-green-50 dark:bg-green-500/10 rounded-xl p-3 text-green-700 dark:text-green-300"><b>You wield:</b> '+r.know+'</div></div>'+
+  '<button onclick="toggleDone(\''+k+'\',15,\'Power studied: '+r.t.replace(/'/g,"")+'\');closeModal()" class="tap mt-4 w-full py-3 rounded-xl gradbg text-white font-bold text-sm">'+(isDone(k)?'Marked ✓ — close':'Mark studied ✓ (+₹15 💰)')+'</button></div>');
+}
+function markReady(key,msg){if(S.done.indexOf(key)<0){S.done.push(key);save();earn(40,msg);}else toast('Already done','Revisit anytime.','👍');rerender();}
+
+/* =====================================================================
+   P2P QUEST
+   ===================================================================== */
+function renderP2P(){
+  document.getElementById('content').innerHTML=
+  '<div class="space-y-4 fadein">'+
+    intro('⚔️','The P2P Quest','Seven trials from Requisition to Payment — your strongest path. Tap a trial for the spell, entry, traps, a real scenario and a boss tip. Tick each as you learn it.')+
+    progressBar('p2pstep:',7,'P2P trials studied')+
+    '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 stagger">'+
+    D.p2p.map(function(s){var k='p2pstep:'+(s.n-1);return '<div onclick="p2pStep('+(s.n-1)+')" class="cardtap bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 cursor-pointer flex items-start gap-2">'+
+      '<div class="flex-1 min-w-0"><div class="flex items-center justify-between"><span class="w-7 h-7 grid place-items-center rounded-full gradbg text-white text-xs font-bold">'+s.n+'</span><span class="text-[10px] font-mono text-sap-500">'+s.code.split(' ')[0]+'</span></div>'+
+      '<div class="font-bold text-sm mt-2">'+s.t+'</div><div class="text-[11px] text-slate-400 mt-0.5">Tap to enter →</div></div>'+
+      checkbox(k)+'</div>';}).join('')+
+    '</div>'+
+    card('<div class="p-5"><h4 class="font-bold mb-1">🎚️ 3-Way Match Trial</h4><p class="text-xs text-slate-500 mb-4">Adjust GR quantity and invoice amount vs the PO. See when the invoice posts vs blocks.</p>'+
+      '<div class="grid sm:grid-cols-3 gap-4 text-sm">'+
+      '<div><label class="text-xs font-semibold text-slate-500">PO: 100 × ₹50 = ₹5000</label><div class="mt-1 text-xs text-slate-400">Fixed reference</div></div>'+
+      '<div><label class="text-xs font-semibold">GR qty: <span id="grq" class="text-sap-500 font-bold">100</span></label><input id="grR" type="range" min="0" max="120" value="100" oninput="match3()" class="w-full accent-sap-500 h-8"></div>'+
+      '<div><label class="text-xs font-semibold">Invoice ₹: <span id="invv" class="text-sap-500 font-bold">5000</span></label><input id="invR" type="range" min="3000" max="7000" step="100" value="5000" oninput="match3()" class="w-full accent-sap-500 h-8"></div></div>'+
+      '<div id="matchOut" class="mt-4 rounded-xl p-4 text-sm"></div></div>')+
+    card('<div class="p-5"><h4 class="font-bold mb-1">🧩 Order the P2P Cycle <span class="text-xs font-normal text-slate-500">(tap ↑ ↓)</span></h4><p class="text-xs text-slate-500 mb-3">Put the 7 trials in order, then check. Win +₹50 and the P2P Champion trophy.</p><ul id="dragList" class="space-y-2"></ul><div class="flex gap-2 mt-3"><button onclick="checkOrder()" class="tap px-5 py-3 rounded-xl gradbg text-white font-bold text-sm">Check ✓</button><button onclick="shuffleOrder()" class="tap px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 font-bold text-sm">Shuffle ↻</button></div><div id="orderOut" class="mt-3 text-sm font-semibold"></div></div>')+
+  '</div>';
+  match3(); shuffleOrder();
+}
+function p2pStep(i){var s=D.p2p[i];var k='p2pstep:'+i;
+  showModal('<div class="p-6"><div class="flex items-center gap-3 mb-3"><span class="w-9 h-9 grid place-items-center rounded-full gradbg text-white font-bold">'+s.n+'</span><div><h3 class="text-lg font-extrabold">'+s.t+'</h3><span class="text-xs font-mono text-sap-500">'+s.code+'</span></div></div>'+
+  '<div class="space-y-3 text-sm">'+
+  '<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3"><b class="text-slate-500 text-xs uppercase">Screen</b><p class="mt-0.5">'+s.screen+'</p></div>'+
+  '<div class="bg-sap-50 dark:bg-sap-500/10 rounded-xl p-3"><b class="text-sap-500 text-xs uppercase">Accounting entry</b><pre class="mt-1 font-mono text-xs whitespace-pre-wrap text-slate-700 dark:text-slate-200">'+s.entry+'</pre></div>'+
+  '<div class="bg-amber-50 dark:bg-amber-500/10 rounded-xl p-3"><b class="text-xs uppercase text-amber-600">🏢 Real corporate scenario</b><p class="mt-0.5">'+s.rw+'</p></div>'+
+  '<div class="bg-red-50 dark:bg-red-500/10 rounded-xl p-3"><b class="text-red-500 text-xs uppercase">Traps</b><ul class="mt-1 list-disc pl-4 space-y-0.5 text-slate-600 dark:text-slate-300">'+s.err.map(function(e){return '<li>'+e+'</li>';}).join('')+'</ul></div>'+
+  '<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3"><b class="text-xs uppercase text-slate-400">🐉 Boss-battle tip</b><p class="mt-0.5 italic">'+s.tip+'</p></div></div>'+
+  '<button onclick="toggleDone(\''+k+'\',8,\'Trial studied\');closeModal()" class="tap mt-4 w-full py-3 rounded-xl gradbg text-white font-bold text-sm">'+(isDone(k)?'Marked ✓ — close':'Got it ✓ (+₹8 💰)')+'</button></div>');
+}
+function match3(){
+  var gr=+document.getElementById('grR').value, inv=+document.getElementById('invR').value;
+  document.getElementById('grq').textContent=gr; document.getElementById('invv').textContent=inv;
+  var expected=gr*50, qtyDiff=gr!==100, priceDiff=inv!==expected, html, cls;
+  if(!qtyDiff&&!priceDiff){cls='bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-300';html='✅ <b>Perfect 3-way match.</b> PO ↔ GR ↔ Invoice agree. Posts & ready to pay. Dr GR/IR ₹5000 / Cr Vendor ₹5000.';}
+  else{cls='bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300';var r=[];if(qtyDiff)r.push('quantity variance (GR '+gr+' ≠ PO 100)');if(priceDiff)r.push('price variance (invoice ₹'+inv+' ≠ GR value ₹'+expected+')');html='🚫 <b>Invoice blocked</b> — '+r.join(' & ')+'. Release via <span class="font-mono">MRBR</span> after correction. Exactly the blocked-invoice scenario interviewers ask about.';}
+  var o=document.getElementById('matchOut'); o.className='mt-4 rounded-xl p-4 text-sm '+cls; o.innerHTML=html;
+}
+var dragOrder=[];
+var P2P_CORRECT=D.p2p.map(function(s){return s.t;});
+function shuffleOrder(){dragOrder=P2P_CORRECT.slice().sort(function(){return Math.random()-.5;});paintDrag();document.getElementById('orderOut').textContent='';}
+function paintDrag(){
+  document.getElementById('dragList').innerHTML=dragOrder.map(function(t,i){return '<li class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 rounded-xl px-3 py-2.5"><span class="w-6 h-6 grid place-items-center rounded-full bg-sap-100 dark:bg-sap-500/20 text-sap-600 dark:text-sap-300 text-xs font-bold shrink-0">'+(i+1)+'</span><span class="font-semibold text-sm flex-1">'+t+'</span><button onclick="moveStep('+i+',-1)" '+(i===0?'disabled':'')+' class="tap w-11 h-11 grid place-items-center rounded-lg bg-white dark:bg-slate-700 disabled:opacity-30 text-lg">↑</button><button onclick="moveStep('+i+',1)" '+(i===dragOrder.length-1?'disabled':'')+' class="tap w-11 h-11 grid place-items-center rounded-lg bg-white dark:bg-slate-700 disabled:opacity-30 text-lg">↓</button></li>';}).join('');
+}
+function moveStep(i,dir){var j=i+dir;if(j<0||j>=dragOrder.length)return;var tmp=dragOrder[i];dragOrder[i]=dragOrder[j];dragOrder[j]=tmp;haptic(15);paintDrag();}
+function checkOrder(){
+  var ok=dragOrder.every(function(t,i){return t===P2P_CORRECT[i];});
+  var out=document.getElementById('orderOut');
+  if(ok){out.innerHTML='<span class="text-green-500">🎉 Correct! PR → RFQ → Quotation → PO → GR → Invoice → Payment.</span>';sndCorrect();awardBadge('p2p');if(S.done.indexOf('p2porder')<0){S.done.push('p2porder');save();earn(50,'P2P cycle conquered!',false);}}
+  else{out.innerHTML='<span class="text-red-500">Not quite — nothing posts until Goods Receipt. Try again!</span>';sndWrong();haptic(30);}
+}
+
+/* =====================================================================
+   FICO REALMS
+   ===================================================================== */
+function renderFico(){
+  function block(title,arr,sub,grp){return '<div><h4 class="font-bold mb-1 flex items-center gap-2">'+title+'</h4><p class="text-xs text-slate-500 mb-3">'+sub+'</p><div class="grid grid-cols-1 sm:grid-cols-2 gap-3">'+arr.map(function(m,i){var k='fico:'+grp+':'+i;return '<div onclick="ficoInfo(\''+grp+'\','+i+')" class="cardtap bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 cursor-pointer flex items-start gap-2"><div class="flex-1 min-w-0"><div class="flex items-start justify-between gap-2"><div class="text-2xl">'+m.icon+'</div>'+pill(m.codes,'bg-sap-50 dark:bg-sap-500/15 text-sap-600 dark:text-sap-300 font-mono shrink-0')+'</div><h5 class="font-bold mt-2 text-sm">'+m.t+'</h5><p class="text-xs text-slate-500 dark:text-slate-400 mt-1">'+m.d+'</p></div>'+checkbox(k)+'</div>';}).join('')+'</div></div>';}
+  document.getElementById('content').innerHTML=
+  '<div class="space-y-5 fadein">'+
+    intro('🗺️','The Realms of FICO','Explore every kingdom — FI (external) and CO (internal) — plus the bridges between them. Tap a card for a real scenario; tick all 12 to win the Realm Explorer trophy.')+
+    progressBar('fico:',12,'Realms studied')+
+    block('💵 FI — the Financial Kingdom', D.fico.FI, 'AP is your home castle — start there.','FI')+
+    block('🎯 CO — the Controlling Kingdom', D.fico.CO, 'Where the high-treasure skill gap hides.','CO')+
+    block('⚡ Bridges & the S/4HANA Realm', D.fico.extra, 'The "why" the interviewer dragons dig into.','extra')+
+  '</div>';
+}
+function ficoInfo(grp,i){var m=D.fico[grp][i];var k='fico:'+grp+':'+i;
+  showModal('<div class="p-6"><div class="flex items-center gap-3 mb-3"><div class="text-3xl">'+m.icon+'</div><div><h3 class="text-lg font-extrabold">'+m.t+'</h3><span class="text-xs font-mono text-sap-500">'+m.codes+'</span></div></div>'+
+  '<div class="space-y-3 text-sm">'+
+  '<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3"><b class="text-xs uppercase text-slate-400">What it is</b><p class="mt-0.5">'+m.d+'</p></div>'+
+  '<div class="bg-amber-50 dark:bg-amber-500/10 rounded-xl p-3"><b class="text-xs uppercase text-amber-600">🏢 Real corporate scenario</b><p class="mt-0.5">'+m.rw+'</p></div></div>'+
+  '<button onclick="toggleDone(\''+k+'\',15,\'Realm studied: '+m.t.replace(/'/g,"")+'\');closeModal()" class="tap mt-4 w-full py-3 rounded-xl gradbg text-white font-bold text-sm">'+(isDone(k)?'Marked ✓ — close':'Mark studied ✓ (+₹15 💰)')+'</button></div>');
+}
+
+/* =====================================================================
+   SPELLBOOK (T-codes)
+   ===================================================================== */
+var tcFilter='All', tcSearch='';
+function renderTcodes(){
+  var mods=['All','FI','AP','AR','AA','CO','MM'];
+  document.getElementById('content').innerHTML=
+  '<div class="space-y-4 fadein">'+
+    '<div class="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 relative overflow-hidden"><div class="absolute right-4 top-3 text-3xl spark">✨</div>'+
+    '<div class="flex items-center justify-between flex-wrap gap-3"><div><h3 class="text-xl font-extrabold flex items-center gap-2">📜 The Spellbook</h3><p class="text-sm text-slate-500">Each T-code is a spell. Tap any for its real-world use. Or duel with flashcards.</p></div>'+
+    '<button onclick="startFlash()" class="tap px-5 py-3 rounded-xl gradbg text-white font-bold text-sm">🃏 Flashcards</button></div>'+
+    '<input oninput="tcSearch=this.value.toLowerCase();paintTc()" placeholder="🔍 Search a spell (payment, MIRO, asset)" class="mt-4 w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 outline-none focus:ring-2 ring-sap-500 text-sm">'+
+    '<div class="flex flex-wrap gap-2 mt-3">'+mods.map(function(m){return '<button onclick="tcFilter=\''+m+'\';paintTc()" class="tcFil tap px-3 py-2 rounded-full text-xs font-semibold border border-slate-200 dark:border-slate-700" data-m="'+m+'">'+m+'</button>';}).join('')+'</div></div>'+
+    '<div id="tcTable"></div>'+
+  '</div>';
+  paintTc();
+}
+function paintTc(){
+  document.querySelectorAll('.tcFil').forEach(function(b){b.classList.toggle('navactive',b.dataset.m===tcFilter);b.classList.toggle('bg-sap-50',b.dataset.m===tcFilter);b.classList.toggle('dark:bg-sap-500/15',b.dataset.m===tcFilter);});
+  var rows=D.tcodes.filter(function(t){return (tcFilter==='All'||t.m===tcFilter)&&(t.c.toLowerCase().indexOf(tcSearch)>=0||t.n.toLowerCase().indexOf(tcSearch)>=0||t.u.toLowerCase().indexOf(tcSearch)>=0);});
+  rows.sort(function(a,b){return (S.favs.indexOf(b.c)>=0?1:0)-(S.favs.indexOf(a.c)>=0?1:0);});
+  var mc={FI:'bg-blue-100 dark:bg-blue-500/15 text-blue-600 dark:text-blue-300',AP:'bg-violet-100 dark:bg-violet-500/15 text-violet-600 dark:text-violet-300',AR:'bg-pink-100 dark:bg-pink-500/15 text-pink-600 dark:text-pink-300',AA:'bg-amber-100 dark:bg-amber-500/15 text-amber-600 dark:text-amber-300',CO:'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-300',MM:'bg-cyan-100 dark:bg-cyan-500/15 text-cyan-600 dark:text-cyan-300'};
+  document.getElementById('tcTable').innerHTML=card('<div class="divide-y divide-slate-100 dark:divide-slate-800">'+(rows.length?rows.map(function(t){return '<div onclick="tcodeInfo(\''+t.c+'\')" class="flex items-center gap-2 px-3 py-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-800/50 transition"><button onclick="event.stopPropagation();toggleFav(\''+t.c+'\')" class="tap text-lg shrink-0 w-11 h-11 grid place-items-center">'+(S.favs.indexOf(t.c)>=0?'⭐':'☆')+'</button><div class="font-mono font-bold text-sap-500 w-20 shrink-0">'+t.c+'</div>'+pill(t.m,(mc[t.m]||'bg-slate-100')+' shrink-0')+'<div class="min-w-0 flex-1"><div class="font-semibold text-sm truncate">'+t.n+'</div><div class="text-xs text-slate-500 truncate">'+t.u+'</div></div><span class="text-slate-300 shrink-0">›</span></div>';}).join(''):'<div class="p-8 text-center text-slate-400 text-sm">No spells match.</div>')+'</div>');
+}
+function tcodeInfo(code){var t=null;for(var i=0;i<D.tcodes.length;i++){if(D.tcodes[i].c===code){t=D.tcodes[i];break;}}if(!t)return;
+  showModal('<div class="p-6"><div class="flex items-center justify-between"><div><div class="font-mono font-extrabold text-2xl text-sap-500">'+t.c+'</div><div class="font-bold mt-0.5">'+t.n+'</div></div><button onclick="toggleFav(\''+t.c+'\');tcodeInfo(\''+t.c+'\')" class="tap text-2xl">'+(S.favs.indexOf(t.c)>=0?'⭐':'☆')+'</button></div>'+
+  '<div class="space-y-3 text-sm mt-3">'+
+  '<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3"><b class="text-xs uppercase text-slate-400">What it does</b><p class="mt-0.5">'+t.u+'</p></div>'+
+  '<div class="bg-amber-50 dark:bg-amber-500/10 rounded-xl p-3"><b class="text-xs uppercase text-amber-600">🏢 Real scenario</b><p class="mt-0.5">'+t.r+'</p></div></div>'+
+  '<button onclick="closeModal()" class="tap mt-4 w-full py-3 rounded-xl gradbg text-white font-bold text-sm">Close</button></div>');
+}
+function toggleFav(c){var i=S.favs.indexOf(c);if(i<0){S.favs.push(c);toast('Favorited '+c,'','⭐');}else S.favs.splice(i,1);save();if(curView==='tcodes')paintTc();}
+
+var flashDeck=[], flashIdx=0;
+function startFlash(){flashDeck=D.tcodes.slice().sort(function(){return Math.random()-.5;});flashIdx=0;paintFlash();}
+function paintFlash(){
+  var t=flashDeck[flashIdx];
+  if(S.flashSeen.indexOf(t.c)<0){S.flashSeen.push(t.c);save();}
+  document.getElementById('content').innerHTML=
+  '<div class="max-w-md mx-auto fadein space-y-4">'+
+    '<div class="flex items-center justify-between"><button onclick="renderTcodes()" class="tap text-sm font-semibold text-slate-500">← Spellbook</button><span class="text-sm font-bold text-slate-400">'+(flashIdx+1)+' / '+flashDeck.length+'</span></div>'+
+    '<div class="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden"><div class="h-full shine" style="width:'+((flashIdx+1)/flashDeck.length*100)+'%"></div></div>'+
+    '<div class="flip h-64" onclick="this.querySelector(\'.flip-inner\').classList.toggle(\'flipped\')">'+
+      '<div class="flip-inner h-full">'+
+        '<div class="face h-full grid place-items-center text-center gradbg text-white rounded-3xl p-6 cursor-pointer select-none"><div><div class="text-xs uppercase tracking-widest opacity-80">Tap to flip 🪄</div><div class="text-4xl font-extrabold font-mono mt-2">'+t.c+'</div><div class="text-lg font-semibold mt-2">'+t.n+'</div>'+pill(t.m,'bg-white/20 mt-3 inline-block')+'</div></div>'+
+        '<div class="face back h-full grid place-items-center text-center bg-white dark:bg-slate-900 border-2 border-sap-500 rounded-3xl p-5 cursor-pointer select-none"><div><div class="text-xs uppercase tracking-widest text-sap-500">Use</div><p class="text-sm font-medium mt-1">'+t.u+'</p><p class="text-xs text-amber-600 mt-2 italic">🏢 '+t.r+'</p></div></div>'+
+      '</div></div>'+
+    '<div class="flex gap-3"><button onclick="flashNav(-1)" class="tap flex-1 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 font-bold">← Prev</button><button onclick="toggleFav(\''+t.c+'\');paintFlash()" class="tap px-4 py-3 rounded-xl bg-amber-100 dark:bg-amber-500/15 text-amber-600 font-bold">'+(S.favs.indexOf(t.c)>=0?'⭐':'☆')+'</button><button onclick="flashNav(1)" class="tap flex-1 py-3 rounded-xl gradbg text-white font-bold">Next →</button></div>'+
+    '<p class="text-center text-xs text-slate-400">Duel through the whole deck to win 📜 Spell Master</p>'+
+  '</div>';
+}
+function flashNav(dir){
+  flashIdx+=dir;
+  if(flashIdx>=flashDeck.length){awardBadge('tcode');if(S.done.indexOf('flash')<0){S.done.push('flash');save();earn(35,'Spellbook mastered!',false);}flashIdx=flashDeck.length-1;toast('Deck complete!','Duel again anytime.','📜');return;}
+  if(flashIdx<0)flashIdx=0;
+  paintFlash();
+}
+
+/* =====================================================================
+   QA / TESTING ARENA  (new)
+   ===================================================================== */
+function renderQA(){
+  document.getElementById('content').innerHTML=
+  '<div class="space-y-5 fadein">'+
+    intro('🧪','The QA & Testing Arena','Testing is where many support folks break into consulting. Learn the four test types, what companies expect, and walk real test scripts. Tick all four concepts for the QA Specialist trophy.')+
+    progressBar('qa:',4,'Testing concepts studied')+
+    '<div><h4 class="font-bold mb-2">🔬 The four test types</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3 stagger">'+
+    D.qa.concepts.map(function(c,i){var k='qa:'+i;return '<div onclick="qaConcept('+i+')" class="cardtap bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 cursor-pointer flex items-start gap-2"><div class="flex-1 min-w-0"><div class="text-2xl">'+c.icon+'</div><h5 class="font-bold mt-2 text-sm">'+c.t+'</h5><p class="text-xs text-slate-500 dark:text-slate-400 mt-1">'+c.d+'</p><p class="text-[11px] text-amber-600 mt-1 font-semibold">📌 Tap for a real scenario</p></div>'+checkbox(k)+'</div>';}).join('')+'</div></div>'+
+    '<div><h4 class="font-bold mb-2">🏢 What companies expect</h4><div class="space-y-2">'+
+    D.qa.expect.map(function(e){return card('<div class="p-4 flex items-start gap-3"><div class="text-2xl shrink-0">'+e.icon+'</div><div><b class="text-sm">'+e.t+'</b><p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">'+e.d+'</p></div></div>');}).join('')+'</div></div>'+
+    '<div><h4 class="font-bold mb-2">🧭 Practical test scripts</h4><div class="space-y-2">'+
+    D.qa.scenarios.map(function(sc,i){return '<details class="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden"><summary class="px-4 py-4 flex items-center gap-3 font-semibold text-sm active:bg-slate-50 dark:active:bg-slate-800/40"><span class="w-7 h-7 grid place-items-center rounded-full bg-sap-50 dark:bg-sap-500/15 text-sap-600 text-xs shrink-0">'+(i+1)+'</span><span class="flex-1">'+sc.t+'</span><span class="text-slate-300">▾</span></summary><div class="px-4 pb-4"><ol class="list-decimal pl-5 space-y-1.5 text-sm text-slate-600 dark:text-slate-300">'+sc.steps.map(function(st){return '<li>'+st+'</li>';}).join('')+'</ol></div></details>';}).join('')+'</div></div>'+
+    card('<div class="p-5 text-center"><p class="text-sm text-slate-500 mb-3">Ready to test your QA knowledge?</p><button onclick="startQuiz(\'qa\')" class="tap px-6 py-3 rounded-xl gradbg text-white font-bold">Take the QA quiz 🧪</button></div>')+
+  '</div>';
+}
+function qaConcept(i){var c=D.qa.concepts[i];var k='qa:'+i;
+  showModal('<div class="p-6"><div class="flex items-center gap-3 mb-3"><div class="text-3xl">'+c.icon+'</div><h3 class="text-lg font-extrabold">'+c.t+'</h3></div>'+
+  '<div class="space-y-3 text-sm">'+
+  '<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3"><b class="text-xs uppercase text-slate-400">What it is</b><p class="mt-0.5">'+c.d+'</p></div>'+
+  '<div class="bg-amber-50 dark:bg-amber-500/10 rounded-xl p-3"><b class="text-xs uppercase text-amber-600">🏢 Real corporate scenario</b><p class="mt-0.5">'+c.rw+'</p></div></div>'+
+  '<button onclick="toggleDone(\''+k+'\',15,\'QA concept studied\');closeModal()" class="tap mt-4 w-full py-3 rounded-xl gradbg text-white font-bold text-sm">'+(isDone(k)?'Marked ✓ — close':'Mark studied ✓ (+₹15 💰)')+'</button></div>');
+}
+
+/* =====================================================================
+   CERTIFICATION TRIALS
+   ===================================================================== */
+function renderCerts(){
+  document.getElementById('content').innerHTML=
+  '<div class="space-y-5 fadein">'+
+    intro('🎓','The Trials of S/4HANA','The official quests that prove your mastery. Trials are <b>scenario-based</b> in 2026 — they test configuration reasoning. Your real P2P experience is a true advantage.')+
+    '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 stagger">'+
+    D.certs.map(function(c){return card('<div class="p-5"><div class="flex items-center justify-between">'+pill(c.tag,'goldbg text-amber-900 font-bold')+pill(c.lvl,'bg-slate-100 dark:bg-slate-800')+'</div><div class="font-mono font-bold text-sap-500 mt-3">'+c.code+'</div><h4 class="font-bold text-sm mt-1 leading-snug">'+c.t+'</h4><p class="text-xs text-slate-500 mt-2">'+c.why+'</p><div class="flex flex-wrap gap-1.5 mt-3">'+c.topics.map(function(t){return pill(t,'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300');}).join('')+'</div></div>');}).join('')+'</div>'+
+    card('<div class="p-5"><h4 class="font-bold mb-3">🗓️ Your 10-week training quest</h4><div class="space-y-3">'+D.certPlan.map(function(p,i){return '<div class="flex gap-3"><div class="shrink-0 w-9 h-9 grid place-items-center rounded-full gradbg text-white text-xs font-bold">'+(i+1)+'</div><div class="flex-1 bg-slate-50 dark:bg-slate-800 rounded-xl px-4 py-3"><div class="flex items-center justify-between flex-wrap gap-1"><b class="text-sm">'+p.t+'</b><span class="text-xs text-sap-500 font-semibold">'+p.wk+'</span></div><p class="text-xs text-slate-500 mt-0.5">'+p.d+'</p></div></div>';}).join('')+'</div></div>')+
+    card('<div class="p-5"><h4 class="font-bold mb-2">📋 Trial format & study scrolls</h4><div class="grid sm:grid-cols-2 gap-3 text-sm"><div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4"><b>Format (2026)</b><ul class="list-disc pl-4 mt-1 text-slate-500 space-y-0.5 text-xs"><li>~80 scenario-based questions</li><li>Online, proctored</li><li>SAP stay-current model</li><li>Reasoning &gt; memorization</li></ul></div><div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4"><b>Where to study</b><ul class="list-disc pl-4 mt-1 text-slate-500 space-y-0.5 text-xs"><li>SAP Learning Hub / learning.sap.com</li><li>Academy: TS4F01–F04</li><li>SAP PRESS guides</li><li>Practice tests (ERPPrep-style)</li></ul></div></div><button onclick="markReadyCert()" class="tap mt-4 px-5 py-3 rounded-xl gradbg text-white font-bold text-sm">This is my path ✓ (+₹40 💰)</button></div>')+
+  '</div>';
+}
+function markReadyCert(){awardBadge('cert');if(S.done.indexOf('certready')<0){S.done.push('certready');save();earn(40,'Trial path charted!',false);}else toast('Already done','','👍');}
+
+/* =====================================================================
+   BOSS BATTLES (interview)
+   ===================================================================== */
+var iqCat='Beginner';
+function renderInterview(){
+  var cats=Object.keys(D.iq);
+  var total=cats.reduce(function(s,c){return s+D.iq[c].length;},0);
+  document.getElementById('content').innerHTML=
+  '<div class="space-y-4 fadein">'+
+    '<div class="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 relative overflow-hidden"><div class="absolute right-4 top-3 text-3xl spark">✨</div><div class="flex items-center justify-between flex-wrap gap-3"><div><h3 class="text-xl font-extrabold flex items-center gap-2">🐉 Boss Battles</h3><p class="text-sm text-slate-500">'+total+'+ real interview dragons with a model strike and what the interviewer wants.</p></div><button onclick="startMock()" class="tap px-5 py-3 rounded-xl gradbg text-white font-bold text-sm">⏱️ Arena</button></div>'+
+    '<div class="flex flex-wrap gap-2 mt-4">'+cats.map(function(c){return '<button onclick="iqCat=\''+c+'\';paintIq()" class="iqCat tap px-3 py-2 rounded-full text-xs font-semibold border border-slate-200 dark:border-slate-700" data-c="'+c+'">'+c+' <span class="opacity-60">'+D.iq[c].length+'</span></button>';}).join('')+'</div></div>'+
+    '<div id="iqList" class="space-y-2"></div>'+
+  '</div>';
+  paintIq();
+}
+function paintIq(){
+  document.querySelectorAll('.iqCat').forEach(function(b){var on=b.dataset.c===iqCat;b.classList.toggle('navactive',on);b.classList.toggle('bg-sap-50',on);b.classList.toggle('dark:bg-sap-500/15',on);});
+  document.getElementById('iqList').innerHTML=D.iq[iqCat].map(function(x,i){return '<details class="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden"><summary class="px-5 py-4 flex items-center gap-3 font-semibold text-sm active:bg-slate-50 dark:active:bg-slate-800/40"><span class="w-6 h-6 grid place-items-center rounded-full bg-sap-50 dark:bg-sap-500/15 text-sap-600 text-xs shrink-0">'+(i+1)+'</span><span class="flex-1">'+x.q+'</span><span class="text-slate-300">▾</span></summary><div class="px-5 pb-5 pt-1 text-sm space-y-3"><div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3"><b class="text-xs uppercase text-slate-400">Model strike</b><p class="mt-1 text-slate-700 dark:text-slate-200 leading-relaxed">'+x.a+'</p></div><div class="bg-amber-50 dark:bg-amber-500/10 rounded-xl p-3"><b class="text-xs uppercase text-amber-600">💡 What the dragon wants</b><p class="mt-1 italic text-slate-600 dark:text-slate-300">'+x.w+'</p></div></div></details>';}).join('');
+}
+var mock={qs:[],i:0,answers:[],timer:null,sec:0};
+function startMock(){var pool=[];Object.keys(D.iq).forEach(function(c){D.iq[c].forEach(function(x){pool.push(x);});});mock={qs:pool.sort(function(){return Math.random()-.5;}).slice(0,10),i:0,answers:[],timer:null,sec:0};paintMock();}
+function paintMock(){
+  if(mock.i>=mock.qs.length)return finishMock();
+  var x=mock.qs[mock.i]; mock.sec=90; clearInterval(mock.timer);
+  document.getElementById('content').innerHTML=
+  '<div class="max-w-2xl mx-auto fadein space-y-4">'+
+    '<div class="flex items-center justify-between"><span class="font-bold text-slate-400 text-sm">Dragon '+(mock.i+1)+' / '+mock.qs.length+'</span><span id="mTimer" class="font-mono font-bold px-3 py-1 rounded-lg bg-sap-50 dark:bg-sap-500/15 text-sap-600">⏱️ 1:30</span></div>'+
+    '<div class="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden"><div class="h-full shine" style="width:'+(mock.i/mock.qs.length*100)+'%"></div></div>'+
+    card('<div class="p-6"><div class="text-xs uppercase tracking-wide text-sap-500 font-bold mb-2">🐉 The dragon asks</div><h3 class="text-lg font-bold leading-snug">'+x.q+'</h3><textarea id="mAns" rows="5" placeholder="Type your answer (or say it out loud and jot keywords)..." class="mt-4 w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 outline-none focus:ring-2 ring-sap-500 text-sm resize-none">'+(mock.answers[mock.i]||'')+'</textarea></div>')+
+    '<div class="flex gap-3"><button onclick="revealModel()" class="tap px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 font-bold text-sm">Show strike 👀</button><button onclick="nextMock()" class="tap flex-1 py-3 rounded-xl gradbg text-white font-bold">'+(mock.i===mock.qs.length-1?'Finish ✓':'Next →')+'</button></div>'+
+    '<div id="mReveal"></div>'+
+  '</div>';
+  mock.timer=setInterval(function(){mock.sec--;var m=Math.floor(mock.sec/60),s=String(mock.sec%60).padStart(2,'0');var el=document.getElementById('mTimer');if(!el){clearInterval(mock.timer);return;}el.textContent='⏱️ '+m+':'+s;if(mock.sec<=10)el.classList.add('text-red-500');if(mock.sec<=0){clearInterval(mock.timer);el.textContent='⏱️ time!';}},1000);
+}
+function revealModel(){var x=mock.qs[mock.i];document.getElementById('mReveal').innerHTML=card('<div class="p-4 text-sm"><b class="text-xs uppercase text-slate-400">Model strike</b><p class="mt-1">'+x.a+'</p><p class="mt-2 text-xs italic text-amber-600">💡 '+x.w+'</p></div>','mt-1');}
+function nextMock(){var a=document.getElementById('mAns');if(a)mock.answers[mock.i]=a.value;mock.i++;paintMock();}
+function finishMock(){
+  clearInterval(mock.timer);
+  var answered=mock.answers.filter(function(a){return a&&a.trim().length>15;}).length;
+  awardBadge('interview'); earn(60,'Boss battle survived!',false);
+  document.getElementById('content').innerHTML=
+  '<div class="max-w-lg mx-auto text-center fadein space-y-4">'+
+    '<div class="text-6xl pop">🐉</div><h3 class="text-2xl font-extrabold gradtext">Boss battle complete!</h3>'+
+    '<p class="text-slate-500">You struck back at <b>'+answered+'/'+mock.qs.length+'</b> dragons. The reps build courage — return 2–3× a week.</p>'+
+    card('<div class="p-5 text-left text-sm space-y-2"><b>Quick self-review:</b><ul class="list-disc pl-5 text-slate-500 space-y-1"><li>Did you name a <b>real Infosys example</b>?</li><li>Did you explain the <b>"why"</b>, not just the T-code?</li><li>Did you mention <b>S/4HANA</b> where relevant?</li></ul></div>')+
+    '<div class="flex gap-3 justify-center"><button onclick="startMock()" class="tap px-5 py-3 rounded-xl gradbg text-white font-bold">10 more 🔁</button><button onclick="renderInterview()" class="tap px-5 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 font-bold">Back</button></div>'+
+  '</div>';
+}
+
+/* =====================================================================
+   TRAINING GROUNDS (quizzes)
+   ===================================================================== */
+var qz={key:null,i:0,score:0};
+function renderQuizzes(){
+  document.getElementById('content').innerHTML=
+  '<div class="space-y-5 fadein">'+
+    intro('🎯','The Training Grounds','Sharpen your blade before the real battles. Score 80%+ for the Sharpshooter trophy. The P2P ordering game lives in the P2P Quest.')+
+    '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 stagger">'+
+    Object.keys(QUIZZES).map(function(k){var q=QUIZZES[k];return '<button onclick="startQuiz(\''+k+'\')" class="cardtap w-full text-left p-5 bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800"><div class="flex items-center justify-between"><div class="text-3xl">'+q.emoji+'</div>'+pill(q.q.length+' Qs','bg-sap-50 dark:bg-sap-500/15 text-sap-600')+'</div><h4 class="font-bold mt-2">'+q.title+'</h4><div class="text-xs text-slate-500 mt-1">'+(S.quiz[k]!=null?'Best: '+S.quiz[k]+'%':'Not attempted yet')+'</div><div class="text-sm font-bold text-sap-500 mt-2">Train →</div></button>';}).join('')+'</div>'+
+    card('<div class="p-5 flex items-center gap-4"><div class="text-3xl">🧩</div><div class="flex-1"><b>P2P Ordering Game</b><p class="text-xs text-slate-500">Order the 7 trials — +₹50 and the P2P Champion trophy.</p></div><button onclick="go(\'p2p\')" class="tap px-4 py-3 rounded-xl gradbg text-white font-bold text-sm">Open →</button></div>')+
+  '</div>';
+}
+function startQuiz(k){qz={key:k,i:0,score:0};paintQuiz();}
+function paintQuiz(){
+  var bank=QUIZZES[qz.key];
+  if(qz.i>=bank.q.length)return finishQuiz();
+  var x=bank.q[qz.i];
+  document.getElementById('content').innerHTML=
+  '<div class="max-w-xl mx-auto fadein space-y-4">'+
+    '<div class="flex items-center justify-between"><button onclick="renderQuizzes()" class="tap text-sm font-semibold text-slate-500">← Training</button><span class="font-bold text-slate-400 text-sm">'+(qz.i+1)+' / '+bank.q.length+' · hits '+qz.score+'</span></div>'+
+    '<div class="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden"><div class="h-full shine" style="width:'+(qz.i/bank.q.length*100)+'%"></div></div>'+
+    card('<div class="p-6"><div class="text-xs uppercase tracking-wide text-sap-500 font-bold">'+bank.emoji+' '+bank.title+'</div><h3 class="text-lg font-bold mt-2 leading-snug">'+x.q+'</h3><div class="grid gap-2 mt-4">'+x.o.map(function(o,oi){return '<button onclick="answerQuiz('+oi+')" class="qopt tap text-left px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 transition font-medium text-sm min-h-[48px]" data-i="'+oi+'">'+String.fromCharCode(65+oi)+'. '+o+'</button>';}).join('')+'</div></div>')+
+  '</div>';
+}
+function answerQuiz(oi){
+  var bank=QUIZZES[qz.key], x=bank.q[qz.i];
+  document.querySelectorAll('.qopt').forEach(function(b){b.style.pointerEvents='none';var i=+b.dataset.i;if(i===x.a){b.classList.add('bg-green-100','dark:bg-green-500/20','text-green-700','dark:text-green-300','ring-2','ring-green-500');}else if(i===oi){b.classList.add('bg-red-100','dark:bg-red-500/20','text-red-700','dark:text-red-300');}});
+  if(oi===x.a){qz.score++;haptic(40);sndCorrect();earn(10,'',false);toast('Hit!','+₹10','🎯');}else{haptic(30);sndWrong();toast('Missed','See the green one','❌');}
+  save();
+  setTimeout(function(){qz.i++;paintQuiz();},900);
+}
+function finishQuiz(){
+  var bank=QUIZZES[qz.key], pct=Math.round(qz.score/bank.q.length*100);
+  if(S.quiz[qz.key]==null||pct>S.quiz[qz.key]){S.quiz[qz.key]=pct;save();}
+  if(pct>=80){confetti();sndComplete();awardBadge('quiz');}
+  document.getElementById('content').innerHTML=
+  '<div class="max-w-md mx-auto text-center fadein space-y-4">'+
+    '<div class="text-6xl pop">'+(pct>=80?'🏆':pct>=50?'🎯':'💪')+'</div><h3 class="text-2xl font-extrabold gradtext">'+qz.score+' / '+bank.q.length+' hits</h3>'+
+    '<p class="text-slate-500">'+(pct>=80?'Excellent — sharp blade!':pct>=50?'Solid. One more run to master it.':'Good start — review and retry.')+'</p>'+
+    '<div class="text-4xl font-extrabold goldtext">'+pct+'%</div>'+
+    '<div class="flex gap-3 justify-center"><button onclick="startQuiz(\''+qz.key+'\')" class="tap px-5 py-3 rounded-xl gradbg text-white font-bold">Retry 🔁</button><button onclick="renderQuizzes()" class="tap px-5 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 font-bold">More</button></div>'+
+  '</div>';
+}
+
+/* =====================================================================
+   CLAIM THE CROWN (job kit)
+   ===================================================================== */
+function renderJobkit(){
+  var salary=[['Fresher / 0–1 yr','₹3.5–6 LPA','Support & testing'],['Associate / 2–3 yr','₹5–9 LPA','Real project work begins'],['Consultant / 4–5 yr','₹10–15 LPA','Client-facing, config'],['Senior / 6–10 yr','₹18–28 LPA','Design & lead'],['Lead / Architect 10+','₹30–50 LPA+','Full-cycle / solutioning']];
+  document.getElementById('content').innerHTML=
+  '<div class="space-y-5 fadein">'+
+    intro('👑','Claim Your Crown','Turn your powers into a royal offer. India 2026 market — Pune is a top-paying kingdom, so you are well placed, champion.')+
+    card('<div class="p-5"><h4 class="font-bold mb-3">💰 SAP FICO treasure map — India (2026)</h4><div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800">'+salary.map(function(r,i){return '<div class="flex items-center gap-3 px-4 py-3 text-sm '+(i%2?'bg-slate-50 dark:bg-slate-800/40':'')+'"><div class="flex-1 font-semibold">'+r[0]+'</div><div class="font-bold goldtext">'+r[1]+'</div><div class="hidden sm:block text-xs text-slate-400 w-40">'+r[2]+'</div></div>';}).join('')+'</div><p class="text-xs text-slate-400 mt-2">💡 S/4HANA skills add a ~20–30% premium. Bangalore, Pune & Hyderabad pay the most.</p></div>')+
+    '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">'+
+      card('<div class="p-5"><h4 class="font-bold mb-2">📄 Resume spells</h4><ul class="text-sm space-y-2 text-slate-600 dark:text-slate-300"><li>▹ Lead with <b>impact</b>: "Processed 200+ vendor invoices/day in MIRO at 99% accuracy."</li><li>▹ Keywords: <span class="font-mono text-xs">P2P, MIRO, FB60, MIGO, GR/IR, F110, S/4HANA, ACDOCA, UAT</span>.</li><li>▹ Reframe support as <b>functional</b>: "Resolved blocked invoices by analyzing PO–GR–invoice variances."</li><li>▹ Add a <b>Skills</b> band + any testing/UAT experience.</li></ul></div>')+
+      card('<div class="p-5"><h4 class="font-bold mb-2">🔗 LinkedIn enchantment</h4><ul class="text-sm space-y-2 text-slate-600 dark:text-slate-300"><li>▹ Headline: <i>"SAP FICO Consultant | S/4HANA | P2P &amp; AP | Infosys"</i></li><li>▹ Turn on "Open to work".</li><li>▹ Post one short learning weekly.</li><li>▹ Connect with SAP recruiters in Pune/Bangalore.</li></ul></div>')+
+    '</div>'+
+    '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">'+
+      card('<div class="p-5"><h4 class="font-bold mb-2">🗣️ Recruiter dragons</h4><ul class="text-sm space-y-2 text-slate-600 dark:text-slate-300"><li>▹ "Walk me through your day." → P2P + tools.</li><li>▹ "Implementation or support?" → honest + config curiosity.</li><li>▹ "S/4HANA exposure?" → ACDOCA, BP, what you studied.</li><li>▹ "Notice period & CTC?" → know your number.</li></ul></div>')+
+      card('<div class="p-5"><h4 class="font-bold mb-2">🤝 Treaty (negotiation)</h4><ul class="text-sm space-y-2 text-slate-600 dark:text-slate-300"><li>▹ Anchor on <b>market + S/4HANA premium</b>, not just current CTC.</li><li>▹ Target a <b>30–50% hike</b> when switching with a niche skill.</li><li>▹ Get the offer in writing before resigning.</li><li>▹ Negotiate total CTC (joining bonus, variable), not just base.</li></ul></div>')+
+    '</div>'+
+    card('<div class="p-5 text-center"><p class="text-sm text-slate-500 mb-3">Ready to claim the crown?</p><button onclick="markReadyJob()" class="tap px-6 py-3 rounded-xl gradbg text-white font-bold">I am battle-ready ✓ (+₹40 💰)</button></div>')+
+  '</div>';
+}
+function markReadyJob(){if(S.done.indexOf('jobready')<0){S.done.push('jobready');save();earn(40,'Crown within reach — go win it!',false);}else toast('Already done','','👍');}
+
+/* =====================================================================
+   INIT
+   ===================================================================== */
+function makeStars(){var h='';for(var i=0;i<55;i++){var s=(Math.random()*2+1).toFixed(1);h+='<span class="star" style="top:'+(Math.random()*100).toFixed(1)+'%;left:'+(Math.random()*100).toFixed(1)+'%;width:'+s+'px;height:'+s+'px;animation-delay:'+(Math.random()*4).toFixed(1)+'s"></span>';}document.getElementById('stars').innerHTML=h;}
+function computeStreak(){var today=new Date().toISOString().slice(0,10);if(S.last!==today){var y=new Date(Date.now()-864e5).toISOString().slice(0,10);if(S.last===y)S.streak=(S.streak||0)+1;else S.streak=1;S.last=today;save();if(S.streak>1)toast('Streak: '+S.streak+' days 🔥','Welcome back, hero!','🔥');}checkStreakBadge();}
+// resume audio + light haptic on first interaction (WebView/browser autoplay policy)
+document.addEventListener('pointerdown',function(e){ensureAudio();var b=(e.target&&e.target.closest)?e.target.closest('button'):null;if(b)haptic(20);},true);
+(async function init(){
+  await load();
+  if(S.theme==='light'){document.documentElement.classList.remove('dark');var ti=document.getElementById('themeIcon');if(ti)ti.textContent='☀️';}
+  var si=document.getElementById('soundIcon');if(si)si.textContent=S.sound?'🔊':'🔇';
+  makeStars();
+  buildNav();
+  computeStreak();
+  paintHeader();
+  go('dashboard');
+  setTimeout(function(){awardBadge('first');},600);
+})();
+</script>
+</body>
+</html>

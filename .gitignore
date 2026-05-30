@@ -1,0 +1,72 @@
+# ===========================================
+# SAP FICO Rocket App - Professional .gitignore
+# ===========================================
+
+# Dependencies
+node_modules/
+
+# Build outputs (Vite + Android)
+dist/
+dist-ssr/
+*.local
+
+# Environment variables & secrets (CRITICAL)
+.env
+.env.*
+.env.local
+.env.*.local
+
+# Android / Capacitor native build artifacts (large & machine-specific)
+android/app/build/
+android/build/
+android/.gradle/
+android/local.properties
+
+# Capacitor copied web assets (regenerated via `npx cap sync`)
+android/app/src/main/assets/public/
+
+# IDE and editor files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Misc build / temp files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ===========================================
+# CRITICAL SECURITY: Personal assets directory
+# Contains private/logo photos - DO NOT TRACK
+# ===========================================
+assets/
+
+# ===========================================
+# Force-track ONLY the pre-compiled release APK
+# (Any other files added to release/ will be ignored)
+# ===========================================
+release/*
+!release/fico-rocket-app.apk
