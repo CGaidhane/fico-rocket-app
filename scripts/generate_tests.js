@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+import fs from 'fs';
+import path from 'path';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 async function generateTest() {
   // Initialize Gemini with your API Key
@@ -38,7 +38,7 @@ async function generateTest() {
     if (responseText.endsWith('```')) responseText = responseText.substring(0, responseText.length - 3);
 
     // Save the output to a test file
-    const testsDir = path.join(__dirname, '..', 'tests');
+    const testsDir = path.join(process.cwd(), 'tests');
     if (!fs.existsSync(testsDir)) {
       fs.mkdirSync(testsDir);
     }
