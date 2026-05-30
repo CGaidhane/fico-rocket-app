@@ -1,0 +1,41 @@
+name: Approve AI Tests
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  merge-tests:
+    # Only run if it's a PR, the comment is exactly /add-tests, and the commenter is the PR author
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == '/add-tests' && github.event.comment.user.login == github.event.issue.user.login }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Get PR Details
+        id: pr-data
+        run: |
+          PR_JSON=$(gh pr view ${{ github.event.issue.number }} --json headRefName)
+          echo "BRANCH_NAME=$(echo $PR_JSON | jq -r .headRefName)" >> $GITHUB_ENV
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout PR Branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BRANCH_NAME }}
+
+      - name: Merge AI Tests Branch
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin
+          git merge origin/ai-tests-pr-${{ github.event.issue.number }} --allow-unrelated-histories -m "Merge AI tests"
+          git push origin ${{ env.BRANCH_NAME }}
+
+      - name: Confirm Merge
+        run: |
+          gh pr comment ${{ github.event.issue.number }} --body "✅ Tests successfully committed to your branch!"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

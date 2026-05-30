@@ -1,0 +1,53 @@
+name: Generate AI Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  ai-test-gen:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Google AI SDK
+        run: npm install @google/generative-ai
+
+      - name: Get PR Diff
+        run: gh pr diff ${{ github.event.pull_request.number }} > pr_diff.txt
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run AI Script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/generate_tests.js
+
+      - name: Commit Tests to Temp Branch
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b ai-tests-pr-${{ github.event.pull_request.number }}
+          git add tests/ai_generated.test.js
+          git commit -m "AI: Auto-generated tests for PR #${{ github.event.pull_request.number }}"
+          git push origin ai-tests-pr-${{ github.event.pull_request.number }} -f
+
+      - name: Comment on PR
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body "🤖 **AI Test Generation Complete!** I have drafted test cases for your changes. 
+          
+          If you want to include these tests in your PR, simply reply to this comment with exactly:
+          \`/add-tests\`"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
