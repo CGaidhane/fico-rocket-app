@@ -67,3 +67,4 @@ This project is provided as-is for personal learning and interview preparation p
 ---
 
 **Made for SAP FICO aspirants who want to practice in a fun, memorable way.** Good luck with your interviews! 🎯
+also added automation for test cases
